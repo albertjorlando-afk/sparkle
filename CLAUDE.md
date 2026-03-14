@@ -34,9 +34,22 @@ All tests must pass before committing. Tests use temp directories — no side ef
 
 ## Docs
 
-Three docs must stay in sync with code changes:
-- `README.md` — features, class diagram, sequence diagram, state diagram, CLI examples
-- `docs/prd.md` — MVP status, requirements, next focus
-- `docs/roadmap.md` — completed items and phased next steps
+Three docs must stay in sync with code changes. Use `/doc-sync` after any feature or structural change.
 
-Use `/doc-sync` after any feature or structural change to keep them aligned.
+Documentation sources and what to check in each:
+
+- `README.md`
+  - "What It Does" list matches implemented features
+  - Class diagram: fields and methods on Node, Edge, GraphStore, BranchTemplate match code
+  - Sequence diagram: add-branch flow matches `cli.py` call sequence
+  - State diagram: status values match `NodeStatus` in `models.py`
+  - Source layout: all files in `src/sparkle/` listed
+  - CLI section: all subcommands documented with correct examples
+  - Testing section: coverage list matches actual test methods
+  - "Current Limits" and "Next": nothing listed that's already implemented
+- `docs/prd.md`
+  - "MVP status" matches what's built
+  - "Next usability focus" only lists unbuilt work
+- `docs/roadmap.md`
+  - "Completed" includes all shipped work
+  - Phase sections only list unbuilt items
