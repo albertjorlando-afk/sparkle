@@ -1,0 +1,9 @@
+[project]
+name = "sparkle"
+version = "0.1.0"
+description = "Claim-graph research MVP with content-addressed provenance"
+requires-python = ">=3.11"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
