@@ -5,10 +5,15 @@ from collections import defaultdict
 from pathlib import Path
 import sys
 
+from typing import get_args
+
 from .bootstrap import seed_concept_graph
 from .graph import GraphStore
-from .models import Edge, Node
+from .models import Edge, Node, NodeStatus, NodeType
 from .templates import BRANCH_TEMPLATES, build_branch_node
+
+VALID_NODE_TYPES = list(get_args(NodeType))
+VALID_NODE_STATUSES = list(get_args(NodeStatus))
 
 DEFAULT_STORE = Path(".sparkle/graph.json")
 TYPE_SYMBOLS = {
@@ -31,8 +36,8 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("init", help="Initialize the local graph store")
     subparsers.add_parser("home", help="Show a dashboard for the current graph")
     list_nodes = subparsers.add_parser("list-nodes", help="List nodes in the graph")
-    list_nodes.add_argument("--type", dest="filter_type")
-    list_nodes.add_argument("--status")
+    list_nodes.add_argument("--type", dest="filter_type", choices=VALID_NODE_TYPES)
+    list_nodes.add_argument("--status", choices=VALID_NODE_STATUSES)
     list_nodes.add_argument("--tag")
     list_nodes.add_argument("--query")
     list_nodes.add_argument("--limit", type=int)
@@ -41,13 +46,13 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("list-templates", help="List structured branch templates")
 
     add_node = subparsers.add_parser("add-node", help="Add a typed node")
-    add_node.add_argument("--type", required=True, dest="node_type")
+    add_node.add_argument("--type", required=True, dest="node_type", choices=VALID_NODE_TYPES)
     add_node.add_argument("--title", required=True)
     add_node.add_argument("--content", required=True)
     add_node.add_argument("--citations", nargs="*", default=[])
     add_node.add_argument("--author", default="local")
     add_node.add_argument("--confidence", type=float, default=0.5)
-    add_node.add_argument("--status", default="active")
+    add_node.add_argument("--status", default="active", choices=VALID_NODE_STATUSES)
     add_node.add_argument("--tags", nargs="*", default=[])
 
     add_edge = subparsers.add_parser("add-edge", help="Link two nodes")
