@@ -1,4 +1,4 @@
-# Sparkle
+# Sparkle ✨
 
 Sparkle is a local-first solo research tool built as a claim graph on top of content-addressed storage.
 
