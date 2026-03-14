@@ -1,0 +1,413 @@
+{
+  "edges": {
+    "0186bf2c4aff00aa879ebfa9a79af51135da16e6b7f68d02e617bf4c1a22b79b": {
+      "created_at": "2026-03-14T17:02:33+00:00",
+      "from_id": "904a9ec508dc771f4106d2ea94e1e589f4f9e561ae5b2703490986565194f2a5",
+      "note": "arousal/mood mechanism",
+      "relation": "supports",
+      "to_id": "e036ff896ceafc7b39391b43d5139b4bcc3a31812d6c516af55add5fcc10ccb2"
+    },
+    "031b80deeb284b2daa6a645778ac5d2a99cf3610ea0bec6860d157819cd6e15b": {
+      "created_at": "2026-03-14T17:02:33+00:00",
+      "from_id": "3e7c596aaa9071cda5b77f03bb49ec72eeae2a851cd079befd2aa66bbcae245d",
+      "note": "noise masking in open offices",
+      "relation": "supports",
+      "to_id": "e036ff896ceafc7b39391b43d5139b4bcc3a31812d6c516af55add5fcc10ccb2"
+    },
+    "119b75d3ff9eb53d3c8901adf4afa2b56d60a09254fd4d1af06a70732ce72a07": {
+      "created_at": "2026-03-14T17:02:34+00:00",
+      "from_id": "f39877ad639f151e32443c1db3bfbbe0830816217f098681250754ef276f0b3c",
+      "note": "actionable recommendation from synthesis",
+      "relation": "derived_from",
+      "to_id": "ae9ed38241fce92232e35f02e8af019798eab81880fba4f7e595df7372fad537"
+    },
+    "14dbb68fc5f578114cab0a092c40aa27ecd7e55ee4b26949c27124019294e95f": {
+      "created_at": "2026-03-14T17:02:33+00:00",
+      "from_id": "7d03d6edf29904d7a89cc35dcb1e6f59edd8ee0c8ee5cf46a29ab755d94e0959",
+      "note": "developer survey data",
+      "relation": "supports",
+      "to_id": "e036ff896ceafc7b39391b43d5139b4bcc3a31812d6c516af55add5fcc10ccb2"
+    },
+    "1d6ac2b4cc0a08310f54c28710aa14c0294f7c7ac429de2ab921a43ae2fc00ae": {
+      "created_at": "2026-03-14T17:02:46+00:00",
+      "from_id": "a5fca945779c90cff1d3fbff25e1e8a5fc8c27132ddcf1f968e64271e0a83238",
+      "note": "safe-zone music characteristics identified",
+      "relation": "derived_from",
+      "to_id": "02643de22a09a7ee0e6bcb2e2ede7ef673d99709f0d5381d43fe7f088eb0565a"
+    },
+    "20e38750625d0a698a8737dfe3f448775c4a840d5f70726274a2dd565ff16fce": {
+      "created_at": "2026-03-14T17:02:33+00:00",
+      "from_id": "0ac25a502795c78e4b12c24e05a73d474893380b0f9def0c2c994e2beb798f53",
+      "note": "correlation vs causation concern",
+      "relation": "contradicts",
+      "to_id": "e036ff896ceafc7b39391b43d5139b4bcc3a31812d6c516af55add5fcc10ccb2"
+    },
+    "3e26f4ee7f7a7ee9c3faa7ff510422eabfc54bc0acb9d833d2b831231dd81d50": {
+      "created_at": "2026-03-14T17:02:34+00:00",
+      "from_id": "7b40913193a4d1cee2dd4ed4738f4b241512dea85ecc689f2df80f9d5eba89c7",
+      "note": "explains lo-fi via habituation",
+      "relation": "derived_from",
+      "to_id": "6add940e9a0a859821a73fb279fa9ec1c07df8518bfce3dc85c2c7509a18d083"
+    },
+    "759952be091492097fdcd8bb67706fae72dd76d6076ec498065fdc7654206129": {
+      "created_at": "2026-03-14T17:02:46+00:00",
+      "from_id": "ae9ed38241fce92232e35f02e8af019798eab81880fba4f7e595df7372fad537",
+      "note": "incorporates music-type insight",
+      "relation": "derived_from",
+      "to_id": "a5fca945779c90cff1d3fbff25e1e8a5fc8c27132ddcf1f968e64271e0a83238"
+    },
+    "77116f3b93f9a3d8baa71979733ccf399406e17381860a6d2664e7afffc45817": {
+      "created_at": "2026-03-14T17:02:34+00:00",
+      "from_id": "ae9ed38241fce92232e35f02e8af019798eab81880fba4f7e595df7372fad537",
+      "note": "incorporates task-type insight",
+      "relation": "derived_from",
+      "to_id": "bb49a450f527ea4c886ddbbca63858f99b3ecc4a2cdd06df2df11180765dfbbc"
+    },
+    "7c51c1c4914e0d1f86273d5fb21b40c0413326a1bdbeaf51ea7c30ff0cd3349a": {
+      "created_at": "2026-03-14T17:02:46+00:00",
+      "from_id": "7b40913193a4d1cee2dd4ed4738f4b241512dea85ecc689f2df80f9d5eba89c7",
+      "note": "lo-fi fits the safe zone perfectly",
+      "relation": "derived_from",
+      "to_id": "a5fca945779c90cff1d3fbff25e1e8a5fc8c27132ddcf1f968e64271e0a83238"
+    },
+    "8112648b9e2eaff05051d20e7e891ea49d6632bafb3cd51f03d6e81018da33eb": {
+      "created_at": "2026-03-14T17:02:33+00:00",
+      "from_id": "6add940e9a0a859821a73fb279fa9ec1c07df8518bfce3dc85c2c7509a18d083",
+      "note": "habituation reduces distraction",
+      "relation": "supports",
+      "to_id": "e036ff896ceafc7b39391b43d5139b4bcc3a31812d6c516af55add5fcc10ccb2"
+    },
+    "8288b5e0f4a66b5ef0edf09932ec90d00d0accd2719e87bb05aaa7c382adf86b": {
+      "created_at": "2026-03-14T17:02:33+00:00",
+      "from_id": "bb49a450f527ea4c886ddbbca63858f99b3ecc4a2cdd06df2df11180765dfbbc",
+      "note": "task complexity determines music benefit",
+      "relation": "derived_from",
+      "to_id": "bbbf66cdb1b72a881a4e69db2d1809ae70299d98b972ccc996bd13c1aed36326"
+    },
+    "8fecec618571221046f26e9748e4dee3a3a3b63b45ff935e53ff7fa807495137": {
+      "created_at": "2026-03-14T17:02:33+00:00",
+      "from_id": "bbbf66cdb1b72a881a4e69db2d1809ae70299d98b972ccc996bd13c1aed36326",
+      "note": "reframes binary into task-type spectrum",
+      "relation": "refines",
+      "to_id": "e036ff896ceafc7b39391b43d5139b4bcc3a31812d6c516af55add5fcc10ccb2"
+    },
+    "990b5a0501b1686e1cc4c84a58a5808368c6a9671dc3c2ef9344a945442ee76f": {
+      "created_at": "2026-03-14T17:02:33+00:00",
+      "from_id": "02643de22a09a7ee0e6bcb2e2ede7ef673d99709f0d5381d43fe7f088eb0565a",
+      "note": "reframes binary into music-type spectrum",
+      "relation": "refines",
+      "to_id": "e036ff896ceafc7b39391b43d5139b4bcc3a31812d6c516af55add5fcc10ccb2"
+    },
+    "9b42811b05b67efa82a25f3329cfb353e9bd82f096d49a5ccd9679b92bc6d7fe": {
+      "created_at": "2026-03-14T17:02:46+00:00",
+      "from_id": "3ea2353452f9e0e8e015756eb8bb550539c9530871d3fca688dce60c8bfe46d0",
+      "note": "novel music fragments attention",
+      "relation": "contradicts",
+      "to_id": "e036ff896ceafc7b39391b43d5139b4bcc3a31812d6c516af55add5fcc10ccb2"
+    },
+    "c3278e5696b2d3c5494e55de8fddb59ba97d4fb025cbb1282bbd3de9f30d5a06": {
+      "created_at": "2026-03-14T17:02:33+00:00",
+      "from_id": "076dde2c5212a1f23bd964b6683198f9f8cfc12ce663f4d2da57e11f1824293d",
+      "note": "questions the productivity framing entirely",
+      "relation": "refines",
+      "to_id": "e036ff896ceafc7b39391b43d5139b4bcc3a31812d6c516af55add5fcc10ccb2"
+    },
+    "e403917a09414df729008027c29b98edaade646bdad204f46a5267faebb47626": {
+      "created_at": "2026-03-14T17:02:33+00:00",
+      "from_id": "dac49e38809269f262fca4bd98854ab74c983af42662f793c2df07671a797b36",
+      "note": "lyrics impair verbal processing",
+      "relation": "contradicts",
+      "to_id": "e036ff896ceafc7b39391b43d5139b4bcc3a31812d6c516af55add5fcc10ccb2"
+    },
+    "e7cb688bc1ffb10c4c1ac345b464f219c7fd95d5074b61553474dc2efb06d06b": {
+      "created_at": "2026-03-14T17:02:33+00:00",
+      "from_id": "ae9ed38241fce92232e35f02e8af019798eab81880fba4f7e595df7372fad537",
+      "note": "synthesizes all evidence for/against",
+      "relation": "derived_from",
+      "to_id": "e036ff896ceafc7b39391b43d5139b4bcc3a31812d6c516af55add5fcc10ccb2"
+    },
+    "f6f61de7a369dc822c8ccc50cab28eb1051f517a8a9fb0b33c81ce6210e4a266": {
+      "created_at": "2026-03-14T17:02:46+00:00",
+      "from_id": "469f2284789f399ff4f3ca1e74009e08633bd7698cf6496f261f76c42f4cb211",
+      "note": "requires 2x2 matrix framing",
+      "relation": "refines",
+      "to_id": "e036ff896ceafc7b39391b43d5139b4bcc3a31812d6c516af55add5fcc10ccb2"
+    }
+  },
+  "nodes": {
+    "02643de22a09a7ee0e6bcb2e2ede7ef673d99709f0d5381d43fe7f088eb0565a": {
+      "author": "local",
+      "citations": [],
+      "confidence": 0.8,
+      "content": "Rather than asking 'does music help?', we should be asking 'which music, under what conditions?' The evidence strongly suggests that not all music is equal. Instrumental vs lyrical, familiar vs novel, simple vs complex \u2014 these dimensions likely matter more than the binary music/silence question. This reframing turns a yes/no debate into a useful design space.",
+      "created_at": "2026-03-14T17:01:21+00:00",
+      "node_type": "question",
+      "status": "active",
+      "tags": [
+        "reframing",
+        "music-type",
+        "dimensions"
+      ],
+      "title": "Does the answer depend on the TYPE of music (lyrical vs instrumental, familiar vs novel)?"
+    },
+    "076dde2c5212a1f23bd964b6683198f9f8cfc12ce663f4d2da57e11f1824293d": {
+      "author": "local",
+      "citations": [],
+      "confidence": 0.3,
+      "content": "Maybe we are asking the wrong question entirely. If music makes coding more enjoyable and sustainable over an 8-hour day, does a small productivity hit on complex tasks even matter? Developer wellbeing and retention might be more valuable than optimizing lines-of-code-per-hour. But this reframing, while valid, moves us away from the original empirical question and into values territory \u2014 parking it for now.",
+      "created_at": "2026-03-14T17:01:21+00:00",
+      "node_type": "question",
+      "status": "abandoned",
+      "tags": [
+        "reframing",
+        "wellbeing",
+        "metrics"
+      ],
+      "title": "Is productivity even the right metric vs. enjoyment and sustainability?"
+    },
+    "0ac25a502795c78e4b12c24e05a73d474893380b0f9def0c2c994e2beb798f53": {
+      "author": "local",
+      "citations": [],
+      "confidence": 0.4,
+      "content": "A fundamental methodological concern: developers often put on music when they are already settling into focused work. The music becomes associated with flow states it did not cause. This is a classic confound in observational studies \u2014 the ritual of putting on headphones signals 'do not disturb' to yourself and colleagues, and it is that signal, not the audio content, doing the work.",
+      "created_at": "2026-03-14T17:01:07+00:00",
+      "node_type": "objection",
+      "status": "stalled",
+      "tags": [
+        "methodology",
+        "confound",
+        "selection-bias"
+      ],
+      "title": "Selection bias: people who code with music may already be in flow, not caused by music"
+    },
+    "3e7c596aaa9071cda5b77f03bb49ec72eeae2a851cd079befd2aa66bbcae245d": {
+      "author": "local",
+      "citations": [
+        "Renz et al. 2018 - Music in open offices",
+        "Banbury and Berry 2005 - Office noise and employee concentration"
+      ],
+      "confidence": 0.5,
+      "content": "Research on open office environments shows that unpredictable speech is the most distracting sound for cognitive work. Steady-state sounds like music can mask these interruptions. Renz et al. (2018) found that personal music listening in open offices was associated with higher self-reported productivity. However, this effect is about noise masking, not music itself \u2014 white noise or nature sounds might work equally well.",
+      "created_at": "2026-03-14T17:00:50+00:00",
+      "node_type": "evidence",
+      "status": "weakly_supported",
+      "tags": [
+        "open-office",
+        "noise-masking",
+        "environment"
+      ],
+      "title": "Music can mask distracting office noise, improving concentration in open environments"
+    },
+    "3ea2353452f9e0e8e015756eb8bb550539c9530871d3fca688dce60c8bfe46d0": {
+      "author": "local",
+      "citations": [
+        "Kahneman 1973 - Attention and Effort",
+        "Sweller 1988 - Cognitive Load During Problem Solving"
+      ],
+      "confidence": 0.7,
+      "content": "Cognitive load theory predicts that any stimulus requiring processing competes with the primary task. Novel or complex music (new albums, intricate jazz, progressive metal) demands attention because the brain treats it as unpredictable information worth monitoring. Kahneman's model of attention as a limited resource explains why that death metal album you just discovered is terrible debugging music \u2014 your brain keeps getting hijacked by the unexpected breakdowns.",
+      "created_at": "2026-03-14T17:01:07+00:00",
+      "node_type": "objection",
+      "status": "active",
+      "tags": [
+        "cognitive-load",
+        "novelty",
+        "attention"
+      ],
+      "title": "Complex or novel music draws attention, fragmenting deep work"
+    },
+    "469f2284789f399ff4f3ca1e74009e08633bd7698cf6496f261f76c42f4cb211": {
+      "author": "local",
+      "citations": [],
+      "confidence": 0.85,
+      "content": "The original claim ('music helps coding') is too coarse to be useful. Any meaningful answer requires at minimum a 2x2 matrix: (routine vs complex task) x (low-load vs high-load music). Blanket statements in either direction are misleading. This is a methodological decision that should guide how we frame the synthesis.",
+      "created_at": "2026-03-14T17:01:50+00:00",
+      "node_type": "decision",
+      "status": "active",
+      "tags": [
+        "decision",
+        "methodology",
+        "framework"
+      ],
+      "title": "Must separate task type and music type before making any general claim"
+    },
+    "6add940e9a0a859821a73fb279fa9ec1c07df8518bfce3dc85c2c7509a18d083": {
+      "author": "local",
+      "citations": [
+        "Roer et al. 2014 - Auditory distraction by changing and deviant sounds",
+        "Margulis 2014 - On Repeat: How Music Plays the Mind"
+      ],
+      "confidence": 0.7,
+      "content": "Research on auditory habituation shows that the brain deprioritizes predictable, repetitive stimuli. Familiar music, especially with minimal variation like lo-fi hip hop beats, becomes sonic wallpaper that the brain can safely ignore. This is why the lo-fi coding stream phenomenon works: the music is deliberately boring enough not to grab attention, while providing just enough ambient stimulation to mask silence and prevent mind-wandering.",
+      "created_at": "2026-03-14T17:00:50+00:00",
+      "node_type": "evidence",
+      "status": "active",
+      "tags": [
+        "habituation",
+        "lo-fi",
+        "familiarity"
+      ],
+      "title": "Repetitive and familiar music reduces novelty distraction \u2014 the lo-fi effect"
+    },
+    "7b40913193a4d1cee2dd4ed4738f4b241512dea85ecc689f2df80f9d5eba89c7": {
+      "author": "local",
+      "citations": [],
+      "confidence": 0.75,
+      "content": "This explains why lo-fi hip hop became the unofficial soundtrack of programming: it accidentally optimizes for all three safe-zone dimensions simultaneously. The beats are simple and repetitive (low complexity), there are no lyrics (no verbal interference), and the genre is so formulaic that every track sounds familiar even on first listen (rapid habituation). The 'lofi girl' streams are not just a meme \u2014 they are an emergent solution to a real cognitive optimization problem.",
+      "created_at": "2026-03-14T17:01:50+00:00",
+      "node_type": "synthesis",
+      "status": "active",
+      "tags": [
+        "synthesis",
+        "lo-fi",
+        "explanation",
+        "cultural"
+      ],
+      "title": "The lo-fi coding stream phenomenon works because it hits the sweet spot: low-complexity, no lyrics, familiar patterns"
+    },
+    "7d03d6edf29904d7a89cc35dcb1e6f59edd8ee0c8ee5cf46a29ab755d94e0959": {
+      "author": "local",
+      "citations": [
+        "JetBrains Developer Survey 2022",
+        "Stack Overflow Annual Developer Surveys"
+      ],
+      "confidence": 0.5,
+      "content": "Multiple Stack Overflow surveys and developer blog posts consistently show that a majority of developers prefer coding with music. A 2022 JetBrains developer survey found ~70% of respondents listen to music while coding. Self-reported benefits include better focus, reduced boredom during repetitive tasks, and a sense of entering 'the zone.' However, self-report data is inherently subjective and vulnerable to confirmation bias.",
+      "created_at": "2026-03-14T17:00:50+00:00",
+      "node_type": "evidence",
+      "status": "active",
+      "tags": [
+        "self-report",
+        "surveys",
+        "developer-culture"
+      ],
+      "title": "Developers self-report higher focus with familiar background music"
+    },
+    "904a9ec508dc771f4106d2ea94e1e589f4f9e561ae5b2703490986565194f2a5": {
+      "author": "local",
+      "citations": [
+        "Husain et al. 2002 - Effects of Musical Tempo and Mode on Arousal, Mood, and Spatial Abilities"
+      ],
+      "confidence": 0.7,
+      "content": "Husain, Thompson, and Schellenberg (2002) demonstrated that music can modulate arousal and mood states, which in turn affect cognitive performance. The so-called 'Mozart Effect' was reattributed to arousal changes rather than music per se. When music puts you in a good mood and at an optimal arousal level, you perform better on spatial-temporal tasks. For coding, this suggests that the right music could optimize your mental state for sustained focus.",
+      "created_at": "2026-03-14T17:00:42+00:00",
+      "node_type": "evidence",
+      "status": "active",
+      "tags": [
+        "arousal",
+        "mood",
+        "cognitive-science"
+      ],
+      "title": "The arousal and mood hypothesis: music elevates mood and arousal, improving task performance"
+    },
+    "a5fca945779c90cff1d3fbff25e1e8a5fc8c27132ddcf1f968e64271e0a83238": {
+      "author": "local",
+      "citations": [],
+      "confidence": 0.8,
+      "content": "Cross-referencing the music-type question with the lyrics/working-memory objection and the habituation evidence: the ideal coding music is instrumental (no verbal interference), familiar (habituated, low novelty-seeking), and low-complexity (minimal attentional capture). This describes exactly what lo-fi hip hop, ambient electronica, and video game soundtracks provide. The safe zone is not about genre \u2014 it is about these three cognitive dimensions.",
+      "created_at": "2026-03-14T17:01:50+00:00",
+      "node_type": "inference",
+      "status": "active",
+      "tags": [
+        "inference",
+        "safe-zone",
+        "instrumental",
+        "familiar"
+      ],
+      "title": "Instrumental, familiar, low-complexity music is the safe zone"
+    },
+    "ae9ed38241fce92232e35f02e8af019798eab81880fba4f7e595df7372fad537": {
+      "author": "local",
+      "citations": [],
+      "confidence": 0.8,
+      "content": "The evidence converges on a nuanced answer that neither the 'always on' nor 'always off' camps get right. Music while coding is beneficial when: (1) the music is instrumental, familiar, and low-complexity, AND (2) the coding task is routine or mechanical. Music becomes harmful when: (1) it contains lyrics or is novel/complex, OR (2) the coding task requires deep problem-solving. The interaction between music characteristics and task demands is the key insight \u2014 not whether music 'helps' in the abstract.",
+      "created_at": "2026-03-14T17:01:50+00:00",
+      "node_type": "synthesis",
+      "status": "promising",
+      "tags": [
+        "synthesis",
+        "context-dependent",
+        "nuanced"
+      ],
+      "title": "Music while coding is context-dependent: instrumental/familiar music helps routine work; silence is better for complex debugging and design"
+    },
+    "bb49a450f527ea4c886ddbbca63858f99b3ecc4a2cdd06df2df11180765dfbbc": {
+      "author": "local",
+      "citations": [],
+      "confidence": 0.75,
+      "content": "Combining the evidence on cognitive load with the task-type reframing: music is beneficial when coding tasks are routine and leave spare cognitive capacity (writing tests, refactoring known patterns, fixing typos), but harmful when tasks require full working memory engagement (debugging complex issues, designing new architectures, reviewing unfamiliar code). The key variable is not the music \u2014 it is how much cognitive headroom the task leaves.",
+      "created_at": "2026-03-14T17:01:50+00:00",
+      "node_type": "inference",
+      "status": "active",
+      "tags": [
+        "inference",
+        "task-dependent",
+        "cognitive-headroom"
+      ],
+      "title": "Music helps for routine/mechanical coding but hurts for novel problem-solving"
+    },
+    "bbbf66cdb1b72a881a4e69db2d1809ae70299d98b972ccc996bd13c1aed36326": {
+      "author": "local",
+      "citations": [],
+      "confidence": 0.8,
+      "content": "Writing boilerplate CRUD endpoints is cognitively very different from debugging a race condition or designing a new architecture. Routine tasks leave spare cognitive capacity that music can fill productively. Complex tasks demand full working memory, leaving no room for music processing. The task-type dimension may be even more important than the music-type dimension.",
+      "created_at": "2026-03-14T17:01:21+00:00",
+      "node_type": "question",
+      "status": "promising",
+      "tags": [
+        "reframing",
+        "task-type",
+        "complexity"
+      ],
+      "title": "Does it depend on the TYPE of coding task (routine vs. complex problem-solving)?"
+    },
+    "dac49e38809269f262fca4bd98854ab74c983af42662f793c2df07671a797b36": {
+      "author": "local",
+      "citations": [
+        "Perham and Vizard 2011 - Can preference for background music mediate the irrelevant sound effect?"
+      ],
+      "confidence": 0.8,
+      "content": "Perham and Vizard (2011) found that music with lyrics significantly impaired performance on serial recall and reading comprehension tasks compared to silence. Since coding involves reading and mentally parsing text \u2014 variable names, function signatures, error messages \u2014 lyrical music creates a dual-task interference in verbal working memory. Your brain literally cannot process two streams of language simultaneously without cost.",
+      "created_at": "2026-03-14T17:01:06+00:00",
+      "node_type": "objection",
+      "status": "active",
+      "tags": [
+        "lyrics",
+        "working-memory",
+        "cognitive-load"
+      ],
+      "title": "Music with lyrics competes for verbal working memory, hurting code comprehension"
+    },
+    "e036ff896ceafc7b39391b43d5139b4bcc3a31812d6c516af55add5fcc10ccb2": {
+      "author": "local",
+      "citations": [],
+      "confidence": 0.5,
+      "content": "The widespread belief among developers that background music enhances coding performance and induces flow state. This claim is common in developer communities, fueled by the popularity of lo-fi hip hop streams, coding playlists, and 'study beats' channels. But does the evidence actually support it, or is it just vibes?",
+      "created_at": "2026-03-14T17:00:11+00:00",
+      "node_type": "claim",
+      "status": "active",
+      "tags": [
+        "root",
+        "music",
+        "coding",
+        "productivity"
+      ],
+      "title": "Listening to music while coding improves productivity and flow state"
+    },
+    "f39877ad639f151e32443c1db3bfbbe0830816217f098681250754ef276f0b3c": {
+      "author": "local",
+      "citations": [],
+      "confidence": 0.7,
+      "content": "The actionable takeaway: treat your audio environment as a tool, not a habit. Before starting a coding session, assess the task complexity. Routine work (writing tests, known refactors, documentation)? Put on your lo-fi playlist. Complex work (debugging mysteries, architecture design, code review of unfamiliar systems)? Silence or very minimal ambient sound. The meta-skill is not finding the 'perfect playlist' \u2014 it is developing awareness of when music serves you and when it steals cognitive resources you need.",
+      "created_at": "2026-03-14T17:01:50+00:00",
+      "node_type": "claim",
+      "status": "promising",
+      "tags": [
+        "application",
+        "recommendation",
+        "actionable"
+      ],
+      "title": "Developers should consciously match music choice to task complexity rather than defaulting to always-on or always-off"
+    }
+  }
+}
