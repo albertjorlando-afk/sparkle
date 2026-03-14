@@ -8,6 +8,7 @@ This repository contains:
 
 - an archived copy of the original concept conversation
 - a Python MVP CLI for creating and exploring a claim graph
+- an automated test suite covering the current MVP workflows
 - a short PRD for the MVP
 - a roadmap for what comes next
 
@@ -38,6 +39,16 @@ The MVP is a local CLI that supports:
 - exporting a selected subgraph into a simple markdown narrative
 - bootstrapping a sample graph from the archived conversation
 
+The MVP is verified with automated tests for the core CLI behaviors:
+
+- initializing the graph store
+- seeding the concept graph from the archived conversation
+- adding nodes and edges
+- showing node context and relationships
+- tracing inbound lineage
+- exporting a subgraph to markdown
+- returning a nonzero exit code for invalid node lookup
+
 This is intentionally small. It is a foundation for proving the model, not the full product.
 
 ## Project structure
@@ -49,6 +60,7 @@ This is intentionally small. It is a foundation for proving the model, not the f
 - [`src/sparkle/graph.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/graph.py): graph store and export logic
 - [`src/sparkle/models.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/models.py): data model and hashing
 - [`src/sparkle/bootstrap.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/bootstrap.py): seeds a starter graph from the archived conversation
+- [`tests/test_cli.py`](/Users/aorlando/dev/ideas/sparkle/tests/test_cli.py): automated coverage for the current CLI MVP
 
 ## Quick start
 
@@ -63,6 +75,20 @@ python3 -m src.sparkle.cli export --root <node_id_prefix>
 ```
 
 By default, the CLI stores data in `.sparkle/graph.json`.
+
+## Development
+
+Run the current test suite with:
+
+```bash
+python3 -m unittest discover -s tests -v
+```
+
+This repo is now Git-initialized, and the commit history is intended to separate:
+
+- the initial archived concept and MVP baseline
+- automated validation of MVP behavior
+- documentation updates that reflect the tested implementation and next phases
 
 ## Example workflow
 
@@ -128,3 +154,14 @@ That separation matters because the tool is meant to preserve provenance without
 - no search or ranking beyond simple graph traversal
 
 Those are deliberate omissions for the first cut.
+
+## What is next
+
+The immediate next layer is better solo-research ergonomics:
+
+- structured branch templates
+- stronger filtering and search
+- richer citation support
+- more export modes such as memo and outline
+
+Later phases include a visual interface, branch triage workflows, and eventually collaboration.

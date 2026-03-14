@@ -9,6 +9,7 @@
 - Neighbor and lineage inspection
 - Markdown export for a selected subgraph
 - Bootstrap flow seeded from the archived concept conversation
+- Automated tests for the current CLI workflows
 - Repository docs that anchor the concept, scope, and next steps
 
 ## Next
@@ -26,6 +27,8 @@
 - Stronger lineage views for "why do I believe this?" and "what would change my mind?"
 - Branch evaluation fields like evidence coverage, unresolved objections, and abandonment reason
 - Merge and supersede workflows for converging syntheses
+
+## Later
 
 ### Phase 3: Interface
 

@@ -48,6 +48,7 @@ A solo researcher, builder, or writer exploring an idea with branching lines of 
 - Human-readable storage.
 - Small enough to inspect manually.
 - No heavy dependencies.
+- Covered by automated local tests for the core CLI workflows.
 
 ## Success criteria for MVP
 
@@ -55,6 +56,17 @@ A solo researcher, builder, or writer exploring an idea with branching lines of 
 - A user can attach supporting and opposing nodes without editing raw JSON.
 - A user can inspect where a synthesis came from.
 - A user can export a research path into markdown.
+- The repository includes repeatable tests for initialization, bootstrap, graph editing, lineage, export, and invalid lookup behavior.
+
+## MVP status
+
+Implemented in this repository:
+
+- Python CLI for local claim-graph workflows
+- deterministic content-addressed IDs for nodes and edges
+- archived origin conversation committed as reference material
+- concept bootstrap flow that seeds a starter graph
+- local test coverage around the current MVP command set
 
 ## Out of scope for MVP
 
