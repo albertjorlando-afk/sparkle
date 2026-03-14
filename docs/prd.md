@@ -85,12 +85,27 @@ Implemented in this repository:
 
 ## Next usability focus
 
-The next development phase should focus on editable workflows and richer provenance before building a GUI.
+Two priorities before anything else: reduce friction for humans mid-research, and make the tool agent-native.
 
-Priority areas:
+### For humans
 
-- editable working views layered over immutable node content
-- richer citation support with excerpt storage and source metadata
-- more export formats beyond markdown (memo, outline, literature-review)
-- branch evaluation fields like evidence coverage and unresolved objections
-- merge and supersede workflows for converging syntheses
+- `update-node` for editing mutable metadata (status, confidence, tags) without recreating nodes
+- `merge` / `supersede` for converging syntheses
+- `undo` for backing out wrong turns
+- Short ID display and resolution everywhere
+
+### For agents
+
+- MCP server so agents can operate the graph without shelling out
+- `--format json` on all commands for machine-readable output
+- `batch` mode for bulk operations via stdin
+- Graph introspection commands (`gaps`, `tensions`, `stale`, `orphans`) that tell an agent what to work on next
+- Session logging with actor attribution
+
+### For real research
+
+- Structured citations with author, title, year, URL, DOI
+- Excerpt storage tied to specific evidence nodes
+- Sources as first-class graph nodes
+- Guided investigation workflows and confidence propagation
+- Export templates beyond raw markdown (memo, lit review, argument map)
