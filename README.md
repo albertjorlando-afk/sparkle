@@ -69,13 +69,15 @@ The operating model is:
 
 ### Source layout
 
-- [`src/sparkle/models.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/models.py): immutable node and edge models with validation
-- [`src/sparkle/graph.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/graph.py): storage, traversal, export
-- [`src/sparkle/cli.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/cli.py): command interface with input validation
-- [`src/sparkle/templates.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/templates.py): structured branch templates
-- [`src/sparkle/bootstrap.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/bootstrap.py): seeds an example graph from the original concept conversation
-- [`src/sparkle/__main__.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/__main__.py): enables `python -m sparkle`
-- [`tests/test_cli.py`](/Users/aorlando/dev/ideas/sparkle/tests/test_cli.py): automated CLI coverage
+- [`src/sparkle/__init__.py`](src/sparkle/__init__.py): package marker
+- [`src/sparkle/models.py`](src/sparkle/models.py): immutable node and edge models with validation
+- [`src/sparkle/graph.py`](src/sparkle/graph.py): storage, traversal, export
+- [`src/sparkle/cli.py`](src/sparkle/cli.py): command interface with input validation
+- [`src/sparkle/templates.py`](src/sparkle/templates.py): structured branch templates
+- [`src/sparkle/bootstrap.py`](src/sparkle/bootstrap.py): seeds an example graph from the original concept conversation
+- [`src/sparkle/__main__.py`](src/sparkle/__main__.py): enables `python -m sparkle`
+- [`tests/test_cli.py`](tests/test_cli.py): automated CLI coverage
+- [`demo/`](demo/): music-and-coding claim graph walkthrough with mermaid visualization
 
 ## Diagrams
 
@@ -200,41 +202,41 @@ stateDiagram-v2
 ### Initialize
 
 ```bash
-python3 -m src.sparkle.cli init
+PYTHONPATH=src python3 -m sparkle init
 ```
 
 ### Seed the example graph
 
 ```bash
-python3 -m src.sparkle.cli bootstrap
+PYTHONPATH=src python3 -m sparkle bootstrap
 ```
 
 ### List available branch templates
 
 ```bash
-python3 -m src.sparkle.cli list-templates
+PYTHONPATH=src python3 -m sparkle list-templates
 ```
 
 ### Filter node listings
 
 ```bash
-python3 -m src.sparkle.cli list-nodes --status promising
-python3 -m src.sparkle.cli list-nodes --type objection
-python3 -m src.sparkle.cli list-nodes --tag origin
-python3 -m src.sparkle.cli list-nodes --query provenance
-python3 -m src.sparkle.cli list-nodes --limit 5
+PYTHONPATH=src python3 -m sparkle list-nodes --status promising
+PYTHONPATH=src python3 -m sparkle list-nodes --type objection
+PYTHONPATH=src python3 -m sparkle list-nodes --tag origin
+PYTHONPATH=src python3 -m sparkle list-nodes --query provenance
+PYTHONPATH=src python3 -m sparkle list-nodes --limit 5
 ```
 
 ### Show the dashboard
 
 ```bash
-python3 -m src.sparkle.cli home
+PYTHONPATH=src python3 -m sparkle home
 ```
 
 ### Add a node
 
 ```bash
-python3 -m src.sparkle.cli add-node \
+PYTHONPATH=src python3 -m sparkle add-node \
   --type claim \
   --title "Merkle DAG structure can improve research provenance" \
   --content "A claim-graph research tool can preserve distinct inquiry paths and make final outputs traceable."
@@ -243,7 +245,7 @@ python3 -m src.sparkle.cli add-node \
 ### Add a custom edge
 
 ```bash
-python3 -m src.sparkle.cli add-edge \
+PYTHONPATH=src python3 -m sparkle add-edge \
   --from <from_id_prefix> \
   --to <to_id_prefix> \
   --relation supports
@@ -252,7 +254,7 @@ python3 -m src.sparkle.cli add-edge \
 ### Add a structured branch
 
 ```bash
-python3 -m src.sparkle.cli add-branch \
+PYTHONPATH=src python3 -m sparkle add-branch \
   --from <claim_id_prefix> \
   --template support \
   --title "Support with source-backed evidence" \
@@ -262,31 +264,31 @@ python3 -m src.sparkle.cli add-branch \
 ### Inspect a node
 
 ```bash
-python3 -m src.sparkle.cli show <node_id_prefix>
+PYTHONPATH=src python3 -m sparkle show <node_id_prefix>
 ```
 
 ### Render a local graph tree
 
 ```bash
-python3 -m src.sparkle.cli tree <node_id_prefix>
+PYTHONPATH=src python3 -m sparkle tree <node_id_prefix>
 ```
 
 ### Trace lineage
 
 ```bash
-python3 -m src.sparkle.cli lineage <node_id_prefix>
+PYTHONPATH=src python3 -m sparkle lineage <node_id_prefix>
 ```
 
 ### Explain why a node exists
 
 ```bash
-python3 -m src.sparkle.cli why <node_id_prefix>
+PYTHONPATH=src python3 -m sparkle why <node_id_prefix>
 ```
 
 ### Export a subgraph
 
 ```bash
-python3 -m src.sparkle.cli export \
+PYTHONPATH=src python3 -m sparkle export \
   --root <node_id_prefix> \
   --output exports/research-path.md
 ```
@@ -366,25 +368,20 @@ The current automated coverage verifies:
 
 Not implemented yet:
 
-- editable working views layered over immutable nodes
-- richer citation and excerpt storage with source metadata
-- multiple export modes such as memo, outline, and literature-review
+- node metadata editing (status, confidence, tags) without recreating the node
 - merge and supersede workflows for converging syntheses
+- MCP server for agent-native access
+- structured JSON output for machine consumption
+- structured citations with author, year, DOI fields
+- graph introspection (gaps, tensions, stale nodes)
 - UI or graph visualization
 - collaboration or sync
 
 ## Next
 
-Near term:
+See [`docs/roadmap.md`](docs/roadmap.md) for the full plan. The short version:
 
-- editable working views layered over immutable node content
-- richer citation support with excerpt storage
-- more export formats beyond markdown
-- branch evaluation fields like evidence coverage and unresolved objections
-
-Later:
-
-- TUI or web UI for claim-card navigation
-- graph visualization with path highlighting
-- branch triage dashboard
-- collaborative research workflows
+1. **CLI usability** — `update-node`, `merge`, `undo`, `batch` mode, short IDs
+2. **Agent-native interface** — MCP server, `--format json`, query language, introspection commands
+3. **Real citation management** — structured sources, excerpts, snapshots, BibTeX interop
+4. **Research workflows** — guided investigation, devil's advocate, confidence propagation, review triggers

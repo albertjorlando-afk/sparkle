@@ -7,6 +7,7 @@ Claim-graph research MVP with content-addressed provenance. Pure Python 3.11+, z
 - `src/sparkle/` — core package (models, graph store, CLI, templates, bootstrap)
 - `tests/test_cli.py` — integration tests via unittest
 - `docs/` — PRD and roadmap
+- `demo/` — music-and-coding claim graph walkthrough with mermaid visualization
 - `.sparkle/graph.json` — local graph data (not committed)
 
 ## Key conventions

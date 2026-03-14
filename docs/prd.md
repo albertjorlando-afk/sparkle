@@ -20,7 +20,7 @@ Help a solo researcher build a claim graph where evidence, objections, questions
 
 ## User
 
-A solo researcher, builder, or writer exploring an idea with branching lines of inquiry.
+A solo researcher, builder, or writer exploring an idea with branching lines of inquiry — or an AI agent conducting structured research on their behalf.
 
 ## Core principles
 
