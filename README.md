@@ -25,6 +25,7 @@ Sparkle currently supports:
 - claim-card style node inspection grouped by relation
 - provenance-focused `why` view for inbound reasoning chains
 - filtered node listing by type, status, tag, query, and limit
+- `home` dashboard for graph counts, recent nodes, and next actions
 - markdown export for a selected subgraph
 - bootstrap seeding from the original concept conversation
 
@@ -220,6 +221,12 @@ python3 -m src.sparkle.cli list-nodes --query provenance
 python3 -m src.sparkle.cli list-nodes --limit 5
 ```
 
+### Show the dashboard
+
+```bash
+python3 -m src.sparkle.cli home
+```
+
 ### Add a node
 
 ```bash
@@ -344,6 +351,7 @@ The current automated coverage verifies:
 - local ASCII tree rendering
 - provenance-focused why rendering
 - filtered node listing
+- home dashboard rendering
 - lineage traversal
 - export to file and stdout
 - invalid lookup handling

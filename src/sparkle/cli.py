@@ -29,6 +29,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     subparsers.add_parser("init", help="Initialize the local graph store")
+    subparsers.add_parser("home", help="Show a dashboard for the current graph")
     list_nodes = subparsers.add_parser("list-nodes", help="List nodes in the graph")
     list_nodes.add_argument("--type", dest="filter_type")
     list_nodes.add_argument("--status")
@@ -131,6 +132,14 @@ def print_relation_groups(title: str, items: list[dict]) -> None:
             print(f"    {format_related_node(item['node_id'], item['node'])}")
 
 
+def print_kv_counts(title: str, counts: dict[str, int]) -> None:
+    if not counts:
+        return
+    print(title)
+    for key in sorted(counts):
+        print(f"  {key:<18} {counts[key]}")
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
@@ -147,6 +156,44 @@ def main(argv: list[str] | None = None) -> int:
             print("Seeded concept graph from original concept conversation")
             for label, node_id in ids.items():
                 print(f"{label}: {node_id}")
+            return 0
+
+        if args.command == "home":
+            nodes = store.list_nodes()
+            edges = store.list_edges()
+            type_counts: dict[str, int] = defaultdict(int)
+            status_counts: dict[str, int] = defaultdict(int)
+            for _, node in nodes:
+                type_counts[node["node_type"]] += 1
+                status_counts[node["status"]] += 1
+
+            print("SPARKLE HOME")
+            print(f"Store: {args.store}")
+            print(f"Nodes: {len(nodes)}")
+            print(f"Edges: {len(edges)}")
+            print("")
+
+            if not nodes:
+                print("Graph is empty.")
+                print("")
+                print("Next:")
+                print("  python3 -m src.sparkle.cli bootstrap")
+                print("  python3 -m src.sparkle.cli add-node --type claim --title \"...\" --content \"...\"")
+                return 0
+
+            print_kv_counts("By type", type_counts)
+            print("")
+            print_kv_counts("By status", status_counts)
+            print("")
+            print("Recent")
+            for node_id, node in nodes[-5:]:
+                print(f"  {node_id[:12]}  {node['node_type']:<10} {node['status']:<16} {node['title']}")
+            print("")
+            print("Next")
+            print("  python3 -m src.sparkle.cli list-nodes --status active")
+            print("  python3 -m src.sparkle.cli tree <node_id_prefix>")
+            print("  python3 -m src.sparkle.cli why <node_id_prefix>")
+            print("  python3 -m src.sparkle.cli add-branch --from <node_id_prefix> --template support --title \"...\"")
             return 0
 
         if args.command == "list-templates":

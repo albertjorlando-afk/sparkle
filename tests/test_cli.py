@@ -43,6 +43,34 @@ class SparkleCliTestCase(unittest.TestCase):
         self.assertIn("synthesis", output)
         self.assertEqual(err, "")
 
+    def test_home_shows_empty_graph_guidance(self) -> None:
+        self.run_cli("init")
+        exit_code, output, err = self.run_cli("home")
+        self.assertEqual(exit_code, 0)
+        self.assertIn("SPARKLE HOME", output)
+        self.assertIn("Graph is empty.", output)
+        self.assertIn("bootstrap", output)
+        self.assertEqual(err, "")
+
+    def test_home_shows_counts_and_recent_nodes(self) -> None:
+        self.run_cli("init")
+        exit_code, _, err = self.run_cli("bootstrap")
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(err, "")
+
+        exit_code, output, err = self.run_cli("home")
+        self.assertEqual(exit_code, 0)
+        self.assertIn("SPARKLE HOME", output)
+        self.assertIn("Nodes: 5", output)
+        self.assertIn("Edges: 5", output)
+        self.assertIn("By type", output)
+        self.assertIn("By status", output)
+        self.assertIn("Recent", output)
+        self.assertIn("A claim-graph research tool can use Merkle-style provenance", output)
+        self.assertIn("tree <node_id_prefix>", output)
+        self.assertIn("why <node_id_prefix>", output)
+        self.assertEqual(err, "")
+
     def test_list_nodes_supports_type_status_tag_query_and_limit_filters(self) -> None:
         self.run_cli("init")
         self.run_cli(
