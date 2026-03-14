@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+from collections import defaultdict
 from pathlib import Path
 import sys
 
@@ -10,6 +11,15 @@ from .models import Edge, Node
 from .templates import BRANCH_TEMPLATES, build_branch_node
 
 DEFAULT_STORE = Path(".sparkle/graph.json")
+TYPE_SYMBOLS = {
+    "claim": "C",
+    "evidence": "+",
+    "question": "?",
+    "objection": "-",
+    "inference": "~",
+    "decision": "!",
+    "synthesis": ">",
+}
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -53,6 +63,9 @@ def build_parser() -> argparse.ArgumentParser:
     show = subparsers.add_parser("show", help="Show a node with inbound and outbound edges")
     show.add_argument("node_id")
 
+    tree = subparsers.add_parser("tree", help="Render a local ASCII tree for a node")
+    tree.add_argument("node_id")
+
     lineage = subparsers.add_parser("lineage", help="Trace inbound lineage for a node")
     lineage.add_argument("node_id")
 
@@ -70,6 +83,25 @@ def print_node_summary(node_id: str, node: dict) -> None:
     )
 
 
+def format_related_node(node_id: str, node: dict) -> str:
+    symbol = TYPE_SYMBOLS.get(node["node_type"], "*")
+    return f"{symbol} {node['node_type']:<10} {node_id[:12]}  {node['title']}"
+
+
+def print_relation_groups(title: str, items: list[dict]) -> None:
+    if not items:
+        return
+    print(title)
+    grouped: dict[str, list[dict]] = defaultdict(list)
+    for item in items:
+        grouped[item["relation"]].append(item)
+
+    for relation in sorted(grouped):
+        print(f"  {relation}")
+        for item in grouped[relation]:
+            print(f"    {format_related_node(item['node_id'], item['node'])}")
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
@@ -83,7 +115,7 @@ def main(argv: list[str] | None = None) -> int:
 
         if args.command == "bootstrap":
             ids = seed_concept_graph(store)
-            print("Seeded concept graph from archived conversation")
+            print("Seeded concept graph from original concept conversation")
             for label, node_id in ids.items():
                 print(f"{label}: {node_id}")
             return 0
@@ -170,13 +202,11 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "show":
             node_id = store.resolve_id(args.node_id)
             node = store.get_node(node_id)
-            neighbors = store.get_neighbors(node_id)
+            neighbors = store.get_neighbor_details(node_id)
 
+            print(f"{node['node_type'].upper()}  {node['status']}  {node['confidence']:.2f}")
+            print(node["title"])
             print(f"ID: {node_id}")
-            print(f"Type: {node['node_type']}")
-            print(f"Title: {node['title']}")
-            print(f"Status: {node['status']}")
-            print(f"Confidence: {node['confidence']}")
             if node["tags"]:
                 print(f"Tags: {', '.join(node['tags'])}")
             if node["citations"]:
@@ -184,12 +214,13 @@ def main(argv: list[str] | None = None) -> int:
             print("")
             print(node["content"])
             print("")
-            print("Inbound:")
-            for edge in neighbors["inbound"]:
-                print(f"- {edge['from_id'][:10]} -[{edge['relation']}]-> {node_id[:10]}")
-            print("Outbound:")
-            for edge in neighbors["outbound"]:
-                print(f"- {node_id[:10]} -[{edge['relation']}]-> {edge['to_id'][:10]}")
+            print_relation_groups("Incoming", neighbors["inbound"])
+            print_relation_groups("Outgoing", neighbors["outbound"])
+            return 0
+
+        if args.command == "tree":
+            node_id = store.resolve_id(args.node_id)
+            print(store.render_tree(node_id), end="")
             return 0
 
         if args.command == "lineage":

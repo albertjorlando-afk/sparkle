@@ -91,9 +91,11 @@ class SparkleCliTestCase(unittest.TestCase):
 
         exit_code, output, err = self.run_cli("show", claim_id[:12])
         self.assertEqual(exit_code, 0)
-        self.assertIn("Title: Test claim", output)
-        self.assertIn("Inbound:", output)
-        self.assertIn("-[supports]->", output)
+        self.assertIn("CLAIM  promising  0.80", output)
+        self.assertIn("Test claim", output)
+        self.assertIn("Incoming", output)
+        self.assertIn("supports", output)
+        self.assertIn("evidence", output)
         self.assertEqual(err, "")
 
         export_path = Path(self.temp_dir.name) / "exports" / "claim.md"
@@ -197,6 +199,28 @@ class SparkleCliTestCase(unittest.TestCase):
         self.assertIn("## Nodes", output)
         self.assertEqual(err, "")
 
+    def test_tree_renders_local_ascii_structure(self) -> None:
+        self.run_cli("init")
+        exit_code, bootstrap_out, err = self.run_cli("bootstrap")
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(err, "")
+
+        root_claim_id = next(
+            line.split(": ", 1)[1]
+            for line in bootstrap_out.splitlines()
+            if line.startswith("root_claim_id:")
+        )
+
+        exit_code, output, err = self.run_cli("tree", root_claim_id[:12])
+        self.assertEqual(exit_code, 0)
+        self.assertIn("claim", output)
+        self.assertIn("Incoming:", output)
+        self.assertIn("Outgoing:", output)
+        self.assertIn("supports", output)
+        self.assertIn("derived_from", output)
+        self.assertIn("├─", output)
+        self.assertEqual(err, "")
+
     def test_ambiguous_prefix_returns_nonzero_and_stderr(self) -> None:
         self.run_cli("init")
         self.run_cli(
@@ -297,12 +321,14 @@ class SparkleCliTestCase(unittest.TestCase):
 
         exit_code, output, err = self.run_cli("show", claim_id[:12])
         self.assertEqual(exit_code, 0)
-        self.assertIn("-[supports]->", output)
+        self.assertIn("Incoming", output)
+        self.assertIn("supports", output)
+        self.assertIn("Support with origin evidence", output)
         self.assertEqual(err, "")
 
         exit_code, branch_output, err = self.run_cli("show", branch_id)
         self.assertEqual(exit_code, 0)
-        self.assertIn("Type: evidence", branch_output)
+        self.assertIn("EVIDENCE  active  0.50", branch_output)
         self.assertIn("Tags: branch:support, template, origin", branch_output)
         self.assertIn("What evidence, source, or observation strengthens this claim?", branch_output)
         self.assertEqual(err, "")

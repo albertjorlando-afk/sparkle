@@ -77,6 +77,21 @@ class GraphStore:
                 outbound.append({"edge_id": edge_id, **edge})
         return {"inbound": inbound, "outbound": outbound}
 
+    def get_neighbor_details(self, node_id: str) -> dict[str, list[dict]]:
+        data = self._read()
+        inbound = []
+        outbound = []
+        for edge_id, edge in data["edges"].items():
+            if edge["to_id"] == node_id:
+                related_node = data["nodes"][edge["from_id"]]
+                inbound.append({"edge_id": edge_id, "node_id": edge["from_id"], "node": related_node, **edge})
+            if edge["from_id"] == node_id:
+                related_node = data["nodes"][edge["to_id"]]
+                outbound.append({"edge_id": edge_id, "node_id": edge["to_id"], "node": related_node, **edge})
+        inbound.sort(key=lambda item: (item["relation"], item["node"]["title"]))
+        outbound.sort(key=lambda item: (item["relation"], item["node"]["title"]))
+        return {"inbound": inbound, "outbound": outbound}
+
     def lineage(self, root_id: str) -> list[tuple[str, dict]]:
         data = self._read()
         visited: set[str] = set()
@@ -166,3 +181,23 @@ class GraphStore:
             output.parent.mkdir(parents=True, exist_ok=True)
             output.write_text(rendered, encoding="utf-8")
         return rendered
+
+    def render_tree(self, root_id: str) -> str:
+        root = self.get_node(root_id)
+        neighbors = self.get_neighbor_details(root_id)
+        lines = [f"{root['node_type']} {root_id[:12]}  {root['title']}"]
+
+        def append_branch(title: str, items: list[dict]) -> None:
+            if not items:
+                return
+            lines.append(f"{title}:")
+            for index, item in enumerate(items):
+                connector = "└─" if index == len(items) - 1 else "├─"
+                lines.append(
+                    f"{connector} {item['relation']:<12} {item['node']['node_type']:<10} "
+                    f"{item['node_id'][:12]}  {item['node']['title']}"
+                )
+
+        append_branch("Incoming", neighbors["inbound"])
+        append_branch("Outgoing", neighbors["outbound"])
+        return "\n".join(lines) + "\n"

@@ -7,7 +7,9 @@
 - Typed nodes and typed edges
 - Structured branch templates for support, objection, reframing, and application flows
 - Node status and confidence metadata
-- Neighbor and lineage inspection
+- Claim-card style node inspection
+- Local ASCII tree rendering
+- Lineage inspection
 - Markdown export for a selected subgraph
 - Bootstrap flow seeded from the original concept conversation
 - Automated tests for the current CLI workflows

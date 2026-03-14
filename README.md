@@ -21,6 +21,8 @@ Sparkle currently supports:
 - branch-like status on nodes: `active`, `stalled`, `weakly_supported`, `promising`, `abandoned`, `harvested`
 - structured inquiry templates: `support`, `objection`, `reframing`, `application`
 - lineage inspection for provenance
+- terminal-native tree view for local graph structure
+- claim-card style node inspection grouped by relation
 - markdown export for a selected subgraph
 - bootstrap seeding from the original concept conversation
 
@@ -240,6 +242,12 @@ python3 -m src.sparkle.cli add-branch \
 python3 -m src.sparkle.cli show <node_id_prefix>
 ```
 
+### Render a local graph tree
+
+```bash
+python3 -m src.sparkle.cli tree <node_id_prefix>
+```
+
 ### Trace lineage
 
 ```bash
@@ -314,7 +322,8 @@ The current automated coverage verifies:
 - node creation
 - edge creation
 - branch-template creation
-- node inspection
+- claim-card style node inspection
+- local ASCII tree rendering
 - lineage traversal
 - export to file and stdout
 - invalid lookup handling
