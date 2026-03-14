@@ -173,6 +173,82 @@ class SparkleCliTestCase(unittest.TestCase):
         self.assertIn("Open question", output)
         self.assertEqual(err, "")
 
+    def test_list_edges_and_export_stdout_after_bootstrap(self) -> None:
+        self.run_cli("init")
+        exit_code, bootstrap_out, err = self.run_cli("bootstrap")
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(err, "")
+
+        root_claim_id = next(
+            line.split(": ", 1)[1]
+            for line in bootstrap_out.splitlines()
+            if line.startswith("root_claim_id:")
+        )
+
+        exit_code, output, err = self.run_cli("list-edges")
+        self.assertEqual(exit_code, 0)
+        self.assertIn("-[supports]->", output)
+        self.assertIn("-[derived_from]->", output)
+        self.assertEqual(err, "")
+
+        exit_code, output, err = self.run_cli("export", "--root", root_claim_id[:12])
+        self.assertEqual(exit_code, 0)
+        self.assertIn("# A claim-graph research tool can use Merkle-style provenance", output)
+        self.assertIn("## Nodes", output)
+        self.assertEqual(err, "")
+
+    def test_ambiguous_prefix_returns_nonzero_and_stderr(self) -> None:
+        self.run_cli("init")
+        self.run_cli(
+            "add-node",
+            "--type",
+            "claim",
+            "--title",
+            "First claim",
+            "--content",
+            "First content",
+        )
+        self.run_cli(
+            "add-node",
+            "--type",
+            "claim",
+            "--title",
+            "Second claim",
+            "--content",
+            "Second content",
+        )
+
+        exit_code, output, err = self.run_cli("show", "")
+        self.assertEqual(exit_code, 2)
+        self.assertEqual(output, "")
+        self.assertIn("Ambiguous prefix", err)
+
+    def test_add_edge_rejects_unknown_node_reference(self) -> None:
+        self.run_cli("init")
+        _, claim_out, _ = self.run_cli(
+            "add-node",
+            "--type",
+            "claim",
+            "--title",
+            "Claim",
+            "--content",
+            "Claim content",
+        )
+        claim_id = claim_out.strip().split()[-1]
+
+        exit_code, output, err = self.run_cli(
+            "add-edge",
+            "--from",
+            "missing",
+            "--to",
+            claim_id[:12],
+            "--relation",
+            "supports",
+        )
+        self.assertEqual(exit_code, 2)
+        self.assertEqual(output, "")
+        self.assertIn("No node found for prefix", err)
+
     def test_unknown_prefix_returns_nonzero_and_stderr(self) -> None:
         self.run_cli("init")
         exit_code, output, err = self.run_cli("show", "missing")
