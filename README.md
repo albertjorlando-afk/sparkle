@@ -26,6 +26,8 @@ Sparkle currently supports:
 
 This is not a UI product yet. It is the storage model and CLI workflow needed to prove the idea.
 
+The next usability bar is also not a UI. The goal is to make the terminal experience feel visual, guided, and satisfying enough that the graph is understandable without leaving the CLI.
+
 ## Why This Exists
 
 Most note systems are good at capture and weak at disciplined inquiry. Sparkle is trying to answer:
@@ -322,6 +324,9 @@ The current automated coverage verifies:
 
 Not implemented yet:
 
+- terminal-native graph views such as tree and provenance-focused displays
+- dashboard-style summaries for grounding and triage
+- ergonomic alias commands for the most common research moves
 - search across graph content
 - richer citation and excerpt storage
 - editable working views layered over immutable nodes
@@ -333,6 +338,8 @@ Not implemented yet:
 
 Near term:
 
+- terminal-native ASCII views for tree, provenance, and status-first navigation
+- more ergonomic CLI commands for common inquiry moves
 - stronger filtering and search
 - richer citation support
 - better export formats

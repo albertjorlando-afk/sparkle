@@ -50,6 +50,7 @@ A solo researcher, builder, or writer exploring an idea with branching lines of 
 - Small enough to inspect manually.
 - No heavy dependencies.
 - Covered by automated local tests for the core CLI workflows.
+- Usable and legible from the terminal without requiring a graphical UI.
 
 ## Success criteria for MVP
 
@@ -78,3 +79,14 @@ Implemented in this repository:
 - web app
 - automated paper ingestion
 - ranking, search, or recommendation systems
+
+## Next usability focus
+
+The next development phase should improve command ergonomics and terminal-native visualization before building a GUI.
+
+Priority areas:
+
+- tree and provenance views that make graph structure obvious in plain text
+- claim-card style node inspection instead of raw inbound/outbound dumps
+- status-first triage views for active, stalled, abandoned, and harvested work
+- shorter command paths for common actions like support, objection, reframing, and application

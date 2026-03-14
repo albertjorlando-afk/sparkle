@@ -17,6 +17,8 @@
 
 ### Phase 1: Research ergonomics
 
+- Terminal-native graph views such as tree, provenance, and dashboard summaries
+- More ergonomic CLI commands for common inquiry moves
 - Better filtering and search across node types, statuses, and relations
 - Editable working views layered over immutable node content
 - More structured export formats for memo, outline, and literature-review modes
