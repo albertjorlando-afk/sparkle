@@ -5,7 +5,7 @@ from .models import Edge, Node
 
 
 def seed_concept_graph(store: GraphStore) -> dict[str, str]:
-    archive_path = "archive/chatgpt-merkle-dag-research.md"
+    concept_reference = "https://chatgpt.com/c/69b579e3-3cf8-8331-8d8d-185381cbbb01"
 
     root_claim = Node(
         node_type="claim",
@@ -14,7 +14,7 @@ def seed_concept_graph(store: GraphStore) -> dict[str, str]:
             "A solo research tool can model inquiry as a claim graph while using content-addressed "
             "storage underneath to preserve provenance, branch paths, and selective extraction."
         ),
-        citations=[archive_path],
+        citations=[concept_reference],
         confidence=0.82,
         status="promising",
         tags=["origin", "product-idea"],
@@ -25,10 +25,10 @@ def seed_concept_graph(store: GraphStore) -> dict[str, str]:
         node_type="evidence",
         title="Original conversation identifies provenance and branching benefits",
         content=(
-            "The archived concept conversation explicitly highlights provenance, branching without loss, "
+            "The original concept conversation explicitly highlights provenance, branching without loss, "
             "reproducibility, and selective extraction as core advantages."
         ),
-        citations=[archive_path],
+        citations=[concept_reference],
         confidence=0.9,
         status="active",
         tags=["origin"],
@@ -42,7 +42,7 @@ def seed_concept_graph(store: GraphStore) -> dict[str, str]:
             "The product should prove that a solo researcher can create a claim, attach evidence and objections, "
             "trace lineage, and export a selected path into a usable document."
         ),
-        citations=[archive_path],
+        citations=[concept_reference],
         confidence=0.74,
         status="active",
         tags=["mvp"],
@@ -56,7 +56,7 @@ def seed_concept_graph(store: GraphStore) -> dict[str, str]:
             "If the tool models every micro-thought as immutable history, the graph can become noisy and stop "
             "feeling like a research environment."
         ),
-        citations=[archive_path],
+        citations=[concept_reference],
         confidence=0.88,
         status="active",
         tags=["risk"],
@@ -70,7 +70,7 @@ def seed_concept_graph(store: GraphStore) -> dict[str, str]:
             "The conversation's strongest framing is to keep the user-facing model as a claim graph while the "
             "storage model remains a Merkle-style DAG. That preserves rigor without forcing Git-like mental models."
         ),
-        citations=[archive_path],
+        citations=[concept_reference],
         confidence=0.86,
         status="harvested",
         tags=["direction"],

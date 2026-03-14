@@ -9,7 +9,7 @@
 - Node status and confidence metadata
 - Neighbor and lineage inspection
 - Markdown export for a selected subgraph
-- Bootstrap flow seeded from the archived concept conversation
+- Bootstrap flow seeded from the original concept conversation
 - Automated tests for the current CLI workflows
 - Repository docs that anchor the concept, scope, and next steps
 

@@ -71,7 +71,7 @@ class SparkleCliTestCase(unittest.TestCase):
             "--content",
             "The archived discussion explicitly argues for provenance and branching.",
             "--citations",
-            "archive/chatgpt-merkle-dag-research.md",
+            "https://chatgpt.com/c/69b579e3-3cf8-8331-8d8d-185381cbbb01",
         )
         self.assertEqual(exit_code, 0)
         evidence_id = evidence_out.strip().split()[-1]
@@ -281,7 +281,7 @@ class SparkleCliTestCase(unittest.TestCase):
             "--title",
             "Support with origin evidence",
             "--citations",
-            "archive/chatgpt-merkle-dag-research.md",
+            "https://chatgpt.com/c/69b579e3-3cf8-8331-8d8d-185381cbbb01",
             "--tags",
             "origin",
         )

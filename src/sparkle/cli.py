@@ -21,7 +21,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("init", help="Initialize the local graph store")
     subparsers.add_parser("list-nodes", help="List nodes in the graph")
     subparsers.add_parser("list-edges", help="List edges in the graph")
-    subparsers.add_parser("bootstrap", help="Seed the store from the archived concept conversation")
+    subparsers.add_parser("bootstrap", help="Seed the store from the original concept conversation")
     subparsers.add_parser("list-templates", help="List structured branch templates")
 
     add_node = subparsers.add_parser("add-node", help="Add a typed node")
