@@ -10,6 +10,7 @@
 - Claim-card style node inspection
 - Local ASCII tree rendering
 - Provenance-focused why view
+- Filtered node listing by status, type, tag, and query
 - Lineage inspection
 - Markdown export for a selected subgraph
 - Bootstrap flow seeded from the original concept conversation

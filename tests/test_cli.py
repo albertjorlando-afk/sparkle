@@ -43,6 +43,75 @@ class SparkleCliTestCase(unittest.TestCase):
         self.assertIn("synthesis", output)
         self.assertEqual(err, "")
 
+    def test_list_nodes_supports_type_status_tag_query_and_limit_filters(self) -> None:
+        self.run_cli("init")
+        self.run_cli(
+            "add-node",
+            "--type",
+            "claim",
+            "--title",
+            "Promising claim",
+            "--content",
+            "Claim about provenance and branching.",
+            "--status",
+            "promising",
+            "--tags",
+            "origin",
+            "research",
+        )
+        self.run_cli(
+            "add-node",
+            "--type",
+            "evidence",
+            "--title",
+            "Origin evidence",
+            "--content",
+            "Evidence about provenance.",
+            "--tags",
+            "origin",
+        )
+        self.run_cli(
+            "add-node",
+            "--type",
+            "question",
+            "--title",
+            "Open question",
+            "--content",
+            "A branch to revisit later.",
+            "--status",
+            "stalled",
+        )
+
+        exit_code, output, err = self.run_cli("list-nodes", "--type", "claim")
+        self.assertEqual(exit_code, 0)
+        self.assertIn("Promising claim", output)
+        self.assertNotIn("Origin evidence", output)
+        self.assertEqual(err, "")
+
+        exit_code, output, err = self.run_cli("list-nodes", "--status", "stalled")
+        self.assertEqual(exit_code, 0)
+        self.assertIn("Open question", output)
+        self.assertNotIn("Promising claim", output)
+        self.assertEqual(err, "")
+
+        exit_code, output, err = self.run_cli("list-nodes", "--tag", "origin")
+        self.assertEqual(exit_code, 0)
+        self.assertIn("Promising claim", output)
+        self.assertIn("Origin evidence", output)
+        self.assertNotIn("Open question", output)
+        self.assertEqual(err, "")
+
+        exit_code, output, err = self.run_cli("list-nodes", "--query", "branching")
+        self.assertEqual(exit_code, 0)
+        self.assertIn("Promising claim", output)
+        self.assertNotIn("Origin evidence", output)
+        self.assertEqual(err, "")
+
+        exit_code, output, err = self.run_cli("list-nodes", "--limit", "1")
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(len([line for line in output.splitlines() if line.strip()]), 1)
+        self.assertEqual(err, "")
+
     def test_add_node_add_edge_show_and_export(self) -> None:
         self.run_cli("init")
 

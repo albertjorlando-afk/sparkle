@@ -29,7 +29,12 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     subparsers.add_parser("init", help="Initialize the local graph store")
-    subparsers.add_parser("list-nodes", help="List nodes in the graph")
+    list_nodes = subparsers.add_parser("list-nodes", help="List nodes in the graph")
+    list_nodes.add_argument("--type", dest="filter_type")
+    list_nodes.add_argument("--status")
+    list_nodes.add_argument("--tag")
+    list_nodes.add_argument("--query")
+    list_nodes.add_argument("--limit", type=int)
     subparsers.add_parser("list-edges", help="List edges in the graph")
     subparsers.add_parser("bootstrap", help="Seed the store from the original concept conversation")
     subparsers.add_parser("list-templates", help="List structured branch templates")
@@ -84,6 +89,27 @@ def print_node_summary(node_id: str, node: dict) -> None:
         f"{node_id[:12]}  {node['node_type']:<10}  {node['status']:<16}  "
         f"{node['confidence']:.2f}  {node['title']}"
     )
+
+
+def node_matches_filters(node: dict, *, filter_type: str | None, status: str | None, tag: str | None, query: str | None) -> bool:
+    if filter_type and node["node_type"] != filter_type:
+        return False
+    if status and node["status"] != status:
+        return False
+    if tag and tag not in node["tags"]:
+        return False
+    if query:
+        haystack = " ".join(
+            [
+                node["title"],
+                node["content"],
+                " ".join(node["tags"]),
+                " ".join(node["citations"]),
+            ]
+        ).lower()
+        if query.lower() not in haystack:
+            return False
+    return True
 
 
 def format_related_node(node_id: str, node: dict) -> str:
@@ -182,7 +208,19 @@ def main(argv: list[str] | None = None) -> int:
             return 0
 
         if args.command == "list-nodes":
-            nodes = store.list_nodes()
+            nodes = [
+                (node_id, node)
+                for node_id, node in store.list_nodes()
+                if node_matches_filters(
+                    node,
+                    filter_type=args.filter_type,
+                    status=args.status,
+                    tag=args.tag,
+                    query=args.query,
+                )
+            ]
+            if args.limit is not None:
+                nodes = nodes[: args.limit]
             if not nodes:
                 print("No nodes found")
                 return 0
