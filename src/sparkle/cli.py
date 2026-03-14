@@ -66,6 +66,9 @@ def build_parser() -> argparse.ArgumentParser:
     tree = subparsers.add_parser("tree", help="Render a local ASCII tree for a node")
     tree.add_argument("node_id")
 
+    why = subparsers.add_parser("why", help="Render inbound provenance for a node")
+    why.add_argument("node_id")
+
     lineage = subparsers.add_parser("lineage", help="Trace inbound lineage for a node")
     lineage.add_argument("node_id")
 
@@ -221,6 +224,11 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "tree":
             node_id = store.resolve_id(args.node_id)
             print(store.render_tree(node_id), end="")
+            return 0
+
+        if args.command == "why":
+            node_id = store.resolve_id(args.node_id)
+            print(store.render_why(node_id), end="")
             return 0
 
         if args.command == "lineage":

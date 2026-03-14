@@ -201,3 +201,23 @@ class GraphStore:
         append_branch("Incoming", neighbors["inbound"])
         append_branch("Outgoing", neighbors["outbound"])
         return "\n".join(lines) + "\n"
+
+    def render_why(self, root_id: str) -> str:
+        root = self.get_node(root_id)
+        lines = [f"{root['node_type']} {root_id[:12]}  {root['title']}"]
+        visited: set[str] = set()
+
+        def walk(node_id: str, prefix: str) -> None:
+            if node_id in visited:
+                return
+            visited.add(node_id)
+            inbound = self.get_neighbor_details(node_id)["inbound"]
+            for item in inbound:
+                lines.append(
+                    f"{prefix}<- {item['relation']:<12} {item['node']['node_type']:<10} "
+                    f"{item['node_id'][:12]}  {item['node']['title']}"
+                )
+                walk(item["node_id"], prefix + "   ")
+
+        walk(root_id, "")
+        return "\n".join(lines) + "\n"

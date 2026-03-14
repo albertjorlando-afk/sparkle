@@ -23,6 +23,7 @@ Sparkle currently supports:
 - lineage inspection for provenance
 - terminal-native tree view for local graph structure
 - claim-card style node inspection grouped by relation
+- provenance-focused `why` view for inbound reasoning chains
 - markdown export for a selected subgraph
 - bootstrap seeding from the original concept conversation
 
@@ -254,6 +255,12 @@ python3 -m src.sparkle.cli tree <node_id_prefix>
 python3 -m src.sparkle.cli lineage <node_id_prefix>
 ```
 
+### Explain why a node exists
+
+```bash
+python3 -m src.sparkle.cli why <node_id_prefix>
+```
+
 ### Export a subgraph
 
 ```bash
@@ -324,6 +331,7 @@ The current automated coverage verifies:
 - branch-template creation
 - claim-card style node inspection
 - local ASCII tree rendering
+- provenance-focused why rendering
 - lineage traversal
 - export to file and stdout
 - invalid lookup handling

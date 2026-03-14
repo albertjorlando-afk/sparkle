@@ -221,6 +221,27 @@ class SparkleCliTestCase(unittest.TestCase):
         self.assertIn("├─", output)
         self.assertEqual(err, "")
 
+    def test_why_renders_inbound_provenance_chain(self) -> None:
+        self.run_cli("init")
+        exit_code, bootstrap_out, err = self.run_cli("bootstrap")
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(err, "")
+
+        synthesis_id = next(
+            line.split(": ", 1)[1]
+            for line in bootstrap_out.splitlines()
+            if line.startswith("synthesis_id:")
+        )
+
+        exit_code, output, err = self.run_cli("why", synthesis_id[:12])
+        self.assertEqual(exit_code, 0)
+        self.assertIn("synthesis", output)
+        self.assertIn("<- derived_from", output)
+        self.assertIn("<- supports", output)
+        self.assertIn("<- refines", output)
+        self.assertIn("<- contradicts", output)
+        self.assertEqual(err, "")
+
     def test_ambiguous_prefix_returns_nonzero_and_stderr(self) -> None:
         self.run_cli("init")
         self.run_cli(
