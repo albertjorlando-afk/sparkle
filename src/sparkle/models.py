@@ -42,6 +42,10 @@ class Node:
     status: NodeStatus = "active"
     tags: list[str] = field(default_factory=list)
 
+    def __post_init__(self) -> None:
+        if not (0.0 <= self.confidence <= 1.0):
+            raise ValueError(f"confidence must be between 0.0 and 1.0, got {self.confidence}")
+
     def to_payload(self) -> dict:
         return asdict(self)
 

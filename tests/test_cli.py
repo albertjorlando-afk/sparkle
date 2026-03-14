@@ -477,6 +477,19 @@ class SparkleCliTestCase(unittest.TestCase):
         self.assertEqual(output, "")
         self.assertIn("Unknown template", err)
 
+    def test_add_node_rejects_out_of_range_confidence(self) -> None:
+        self.run_cli("init")
+        exit_code, output, err = self.run_cli(
+            "add-node",
+            "--type", "claim",
+            "--title", "Bad confidence",
+            "--content", "Should fail",
+            "--confidence", "1.5",
+        )
+        self.assertEqual(exit_code, 2)
+        self.assertEqual(output, "")
+        self.assertIn("confidence", err)
+
     def test_unknown_prefix_returns_nonzero_and_stderr(self) -> None:
         self.run_cli("init")
         exit_code, output, err = self.run_cli("show", "missing")
