@@ -66,7 +66,7 @@ Implemented in this repository:
 - Python CLI for local claim-graph workflows
 - deterministic content-addressed IDs for nodes and edges
 - structured branch templates for common inquiry moves
-- archived origin conversation committed as reference material
+- original concept conversation referenced as provenance for the seeded example graph
 - concept bootstrap flow that seeds a starter graph
 - local test coverage around the current MVP command set
 
