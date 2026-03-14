@@ -69,11 +69,12 @@ The operating model is:
 
 ### Source layout
 
-- [`src/sparkle/models.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/models.py): immutable node and edge models
+- [`src/sparkle/models.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/models.py): immutable node and edge models with validation
 - [`src/sparkle/graph.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/graph.py): storage, traversal, export
-- [`src/sparkle/cli.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/cli.py): command interface
+- [`src/sparkle/cli.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/cli.py): command interface with input validation
 - [`src/sparkle/templates.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/templates.py): structured branch templates
 - [`src/sparkle/bootstrap.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/bootstrap.py): seeds an example graph from the original concept conversation
+- [`src/sparkle/__main__.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/__main__.py): enables `python -m sparkle`
 - [`tests/test_cli.py`](/Users/aorlando/dev/ideas/sparkle/tests/test_cli.py): automated CLI coverage
 
 ## Diagrams
@@ -116,9 +117,12 @@ classDiagram
       +resolve_id(prefix)
       +get_node(node_id)
       +get_neighbors(node_id)
+      +get_neighbor_details(node_id)
       +lineage(root_id)
       +subgraph(root_id)
       +export_markdown(root_id, output)
+      +render_tree(root_id)
+      +render_why(root_id)
     }
 
     class BranchTemplate {
@@ -344,7 +348,7 @@ The current automated coverage verifies:
 
 - store initialization
 - bootstrap seeding
-- node creation
+- node creation with validation (type, status, confidence range)
 - edge creation
 - branch-template creation
 - claim-card style node inspection
@@ -356,18 +360,16 @@ The current automated coverage verifies:
 - export to file and stdout
 - invalid lookup handling
 - ambiguous prefix handling
+- out-of-range confidence rejection
 
 ## Current Limits
 
 Not implemented yet:
 
-- terminal-native graph views such as tree and provenance-focused displays
-- dashboard-style summaries for grounding and triage
-- ergonomic alias commands for the most common research moves
-- search across graph content
-- richer citation and excerpt storage
 - editable working views layered over immutable nodes
-- multiple export modes such as memo and outline
+- richer citation and excerpt storage with source metadata
+- multiple export modes such as memo, outline, and literature-review
+- merge and supersede workflows for converging syntheses
 - UI or graph visualization
 - collaboration or sync
 
@@ -375,16 +377,14 @@ Not implemented yet:
 
 Near term:
 
-- terminal-native ASCII views for tree, provenance, and status-first navigation
-- more ergonomic CLI commands for common inquiry moves
-- stronger filtering and search
-- richer citation support
-- better export formats
-- better provenance review
+- editable working views layered over immutable node content
+- richer citation support with excerpt storage
+- more export formats beyond markdown
+- branch evaluation fields like evidence coverage and unresolved objections
 
 Later:
 
-- UI for claim-card navigation
+- TUI or web UI for claim-card navigation
 - graph visualization with path highlighting
 - branch triage dashboard
 - collaborative research workflows

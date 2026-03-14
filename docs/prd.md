@@ -69,7 +69,10 @@ Implemented in this repository:
 - structured branch templates for common inquiry moves
 - original concept conversation referenced as provenance for the seeded example graph
 - concept bootstrap flow that seeds a starter graph
-- local test coverage around the current MVP command set
+- input validation for node type, status, and confidence range
+- terminal-native tree views, provenance chains, and home dashboard
+- filtered node listing by type, status, tag, query, and limit
+- local test coverage around the current CLI command set
 
 ## Out of scope for MVP
 
@@ -82,11 +85,12 @@ Implemented in this repository:
 
 ## Next usability focus
 
-The next development phase should improve command ergonomics and terminal-native visualization before building a GUI.
+The next development phase should focus on editable workflows and richer provenance before building a GUI.
 
 Priority areas:
 
-- tree and provenance views that make graph structure obvious in plain text
-- claim-card style node inspection instead of raw inbound/outbound dumps
-- status-first triage views for active, stalled, abandoned, and harvested work
-- shorter command paths for common actions like support, objection, reframing, and application
+- editable working views layered over immutable node content
+- richer citation support with excerpt storage and source metadata
+- more export formats beyond markdown (memo, outline, literature-review)
+- branch evaluation fields like evidence coverage and unresolved objections
+- merge and supersede workflows for converging syntheses
