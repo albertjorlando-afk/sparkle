@@ -1,87 +1,147 @@
-# Sparkle ✨
+# Sparkle
 
-Sparkle is a local-first solo research tool built as a claim graph on top of content-addressed storage.
+A research tool that makes claims, evidence, and reasoning traceable — for humans and AI agents.
 
-The core idea is simple:
+Instead of scattering research across notes, bookmarks, and chat threads, Sparkle stores it as a typed graph: claims link to evidence, objections, questions, and syntheses. Every conclusion traces back to the path that produced it. Nothing gets lost.
 
-- research should branch without losing work
-- claims should stay tied to evidence, objections, questions, and syntheses
-- final outputs should be traceable back to the path that produced them
-
-This repo is the MVP: a Python CLI that stores typed research nodes in a Merkle-style graph, supports structured branch creation, and exports selected subgraphs into markdown.
-
-## What It Does
-
-Sparkle currently supports:
-
-- typed nodes: `claim`, `evidence`, `question`, `objection`, `inference`, `decision`, `synthesis`
-- typed edges between nodes
-- deterministic content-derived IDs for nodes and edges
-- local JSON storage in `.sparkle/graph.json`
-- branch-like status on nodes: `active`, `stalled`, `weakly_supported`, `promising`, `abandoned`, `harvested`
-- structured inquiry templates: `support`, `objection`, `reframing`, `application`
-- lineage inspection for provenance
-- terminal-native tree view for local graph structure
-- claim-card style node inspection grouped by relation
-- provenance-focused `why` view for inbound reasoning chains
-- filtered node listing by type, status, tag, query, and limit
-- `home` dashboard for graph counts, recent nodes, and next actions
-- markdown export for a selected subgraph
-- bootstrap seeding from the original concept conversation
-
-This is not a UI product yet. It is the storage model and CLI workflow needed to prove the idea.
-
-The next usability bar is also not a UI. The goal is to make the terminal experience feel visual, guided, and satisfying enough that the graph is understandable without leaving the CLI.
+**[See it in action: Does music help you code?](demo/)**
 
 ## Why This Exists
 
-Most note systems are good at capture and weak at disciplined inquiry. Sparkle is trying to answer:
+Most research tools are good at capture and bad at accountability. Ask yourself:
 
-- What supports this claim?
-- What weakens it?
+- What supports this claim? What weakens it?
 - What alternative paths did I explore?
-- Why did I abandon or harvest a branch?
-- What exact path led to this synthesis?
+- Why did I abandon that line of thinking?
+- How exactly did I arrive at this conclusion?
 
-The operating model is:
+If you can't answer those from your notes, you have a capture tool, not a research tool. Sparkle is the graph layer that makes these questions answerable — by you, by a collaborator reviewing your work, or by an AI agent conducting research on your behalf.
 
-- conceptually: claim graph
-- operationally: branching research workspace
-- technically: content-addressed Merkle-style DAG
+## Where It's Going
+
+The CLI works today. The roadmap is about making it the backend for real research:
+
+| Phase | What | Why |
+|-------|------|-----|
+| **CLI usability** | `update-node`, `merge`, `undo`, `batch` mode | Can't stop mid-thought to fight the tool |
+| **Agent-native** | MCP server, `--format json`, introspection (`gaps`, `tensions`) | Agents need structured I/O, not ASCII parsing |
+| **Real citations** | Structured sources, excerpts, DOI/URL, BibTeX interop | Flat strings aren't verifiable sources |
+| **Research workflows** | Guided investigation, devil's advocate, confidence propagation | The tool should enforce good research hygiene |
+
+The highest-leverage item is the **MCP server** — it turns Sparkle from "a CLI you shell out to" into a tool any AI agent can use natively during research.
+
+See [`docs/roadmap.md`](docs/roadmap.md) for the full plan.
+
+## Quick Start
+
+```bash
+git clone <repo> && cd sparkle
+
+# Initialize a graph store
+PYTHONPATH=src python3 -m sparkle init
+
+# Seed with an example graph
+PYTHONPATH=src python3 -m sparkle bootstrap
+
+# See the dashboard
+PYTHONPATH=src python3 -m sparkle home
+
+# Explore
+PYTHONPATH=src python3 -m sparkle tree <node_id_prefix>
+PYTHONPATH=src python3 -m sparkle show <node_id_prefix>
+PYTHONPATH=src python3 -m sparkle why <node_id_prefix>
+```
+
+Or explore the pre-built demo graph:
+
+```bash
+PYTHONPATH=src python3 -m sparkle --store demo/.sparkle/graph.json home
+PYTHONPATH=src python3 -m sparkle --store demo/.sparkle/graph.json tree e036ff896cea
+```
+
+## How It Works
+
+### The graph model
+
+Research is a graph of typed nodes connected by typed edges:
+
+- **Nodes**: `claim`, `evidence`, `question`, `objection`, `inference`, `decision`, `synthesis`
+- **Edges**: `supports`, `contradicts`, `refines`, `derived_from` (or any custom relation)
+- **Status**: `active`, `stalled`, `weakly_supported`, `promising`, `abandoned`, `harvested`
+- **IDs**: SHA256 content hashes — same content always produces the same ID, tamper-evident by construction
+
+### Branch templates
+
+Recurring research moves have templates so you don't have to remember node types and relations:
+
+| Template | Creates | Relation | Use when |
+|----------|---------|----------|----------|
+| `support` | evidence | supports | Adding evidence for a claim |
+| `objection` | objection | contradicts | Challenging a claim |
+| `reframing` | question | refines | Asking a better question |
+| `application` | claim | derived_from | Drawing a practical conclusion |
+
+```bash
+PYTHONPATH=src python3 -m sparkle add-branch \
+  --from <claim_id> --template support \
+  --title "Primary source evidence" \
+  --citations "https://example.com/paper"
+```
+
+### Storage
+
+All state lives in a single human-readable JSON file (`.sparkle/graph.json`). Nodes and edges are keyed by content hash. Identical payloads collapse to the same ID. The store is immutable in spirit — provenance remains stable as the graph grows.
+
+## CLI Reference
+
+| Command | What it does |
+|---------|-------------|
+| `init` | Create an empty graph store |
+| `bootstrap` | Seed with example nodes from the concept conversation |
+| `home` | Dashboard with counts, recent nodes, next actions |
+| `add-node` | Create a node with type, title, content, confidence, status, tags |
+| `add-edge` | Link two nodes with a relation |
+| `add-branch` | Templated node + edge creation for common research moves |
+| `list-nodes` | List nodes with filters (type, status, tag, query, limit) |
+| `list-edges` | List all edges |
+| `list-templates` | Show available branch templates |
+| `show` | Inspect a node with all its incoming and outgoing edges |
+| `tree` | ASCII tree of a node's immediate neighborhood |
+| `why` | Trace inbound provenance chain |
+| `lineage` | Walk all inbound ancestors (BFS) |
+| `export` | Export a subgraph rooted at a node to markdown |
+
+All commands accept `--store <path>` to use a non-default graph file.
 
 ## Architecture
 
-### Core data model
-
-- `Node`
-  - immutable content payload
-  - hash-derived ID
-  - type, title, content, citations, author, confidence, status, tags
-- `Edge`
-  - immutable link payload
-  - hash-derived ID
-  - `from_id`, `to_id`, `relation`, `note`
-- `GraphStore`
-  - JSON-backed storage for nodes and edges
-  - lookup, lineage traversal, subgraph collection, markdown export
-- `BranchTemplate`
-  - opinionated workflow layer for recurring inquiry moves
-
 ### Source layout
 
-- [`src/sparkle/__init__.py`](src/sparkle/__init__.py): package marker
-- [`src/sparkle/models.py`](src/sparkle/models.py): immutable node and edge models with validation
-- [`src/sparkle/graph.py`](src/sparkle/graph.py): storage, traversal, export
-- [`src/sparkle/cli.py`](src/sparkle/cli.py): command interface with input validation
-- [`src/sparkle/templates.py`](src/sparkle/templates.py): structured branch templates
-- [`src/sparkle/bootstrap.py`](src/sparkle/bootstrap.py): seeds an example graph from the original concept conversation
-- [`src/sparkle/__main__.py`](src/sparkle/__main__.py): enables `python -m sparkle`
-- [`tests/test_cli.py`](tests/test_cli.py): automated CLI coverage
-- [`demo/`](demo/): music-and-coding claim graph walkthrough with mermaid visualization
+```
+src/sparkle/
+  __init__.py       # package marker
+  models.py         # Node, Edge — frozen dataclasses with content-addressed IDs
+  graph.py          # GraphStore — JSON-backed storage, traversal, export
+  cli.py            # CLI — argparse commands with input validation
+  templates.py      # BranchTemplate — opinionated inquiry workflows
+  bootstrap.py      # seeds example graph from concept conversation
+  __main__.py       # python -m sparkle entrypoint
+tests/
+  test_cli.py       # 16 integration tests via unittest
+demo/
+  README.md         # demo overview with mermaid graph
+  WALKTHROUGH.md    # conversational walkthrough of building a claim graph
+  exported-research.md  # sparkle export output
+  .sparkle/graph.json   # the demo graph (17 nodes, 19 edges)
+docs/
+  prd.md            # product requirements
+  roadmap.md        # what's built, what's next
+```
 
-## Diagrams
+### Diagrams
 
-### Class model
+<details>
+<summary>Class model</summary>
 
 ```mermaid
 classDiagram
@@ -141,10 +201,10 @@ classDiagram
     GraphStore --> Edge : stores
     BranchTemplate --> Node : configures
 ```
+</details>
 
-### Add-branch sequence
-
-This is the most important workflow-specific behavior in the MVP.
+<details>
+<summary>Add-branch sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -175,10 +235,10 @@ sequenceDiagram
     Store-->>CLI: edge_id
     CLI-->>User: branch node id + branch edge id
 ```
+</details>
 
-### Research node state model
-
-These statuses are metadata on nodes. They are how the MVP represents branch triage.
+<details>
+<summary>Node status model</summary>
 
 ```mermaid
 stateDiagram-v2
@@ -196,192 +256,22 @@ stateDiagram-v2
     active --> abandoned
     abandoned --> active
 ```
-
-## CLI
-
-### Initialize
-
-```bash
-PYTHONPATH=src python3 -m sparkle init
-```
-
-### Seed the example graph
-
-```bash
-PYTHONPATH=src python3 -m sparkle bootstrap
-```
-
-### List available branch templates
-
-```bash
-PYTHONPATH=src python3 -m sparkle list-templates
-```
-
-### Filter node listings
-
-```bash
-PYTHONPATH=src python3 -m sparkle list-nodes --status promising
-PYTHONPATH=src python3 -m sparkle list-nodes --type objection
-PYTHONPATH=src python3 -m sparkle list-nodes --tag origin
-PYTHONPATH=src python3 -m sparkle list-nodes --query provenance
-PYTHONPATH=src python3 -m sparkle list-nodes --limit 5
-```
-
-### Show the dashboard
-
-```bash
-PYTHONPATH=src python3 -m sparkle home
-```
-
-### Add a node
-
-```bash
-PYTHONPATH=src python3 -m sparkle add-node \
-  --type claim \
-  --title "Merkle DAG structure can improve research provenance" \
-  --content "A claim-graph research tool can preserve distinct inquiry paths and make final outputs traceable."
-```
-
-### Add a custom edge
-
-```bash
-PYTHONPATH=src python3 -m sparkle add-edge \
-  --from <from_id_prefix> \
-  --to <to_id_prefix> \
-  --relation supports
-```
-
-### Add a structured branch
-
-```bash
-PYTHONPATH=src python3 -m sparkle add-branch \
-  --from <claim_id_prefix> \
-  --template support \
-  --title "Support with source-backed evidence" \
-  --citations https://chatgpt.com/c/69b579e3-3cf8-8331-8d8d-185381cbbb01
-```
-
-### Inspect a node
-
-```bash
-PYTHONPATH=src python3 -m sparkle show <node_id_prefix>
-```
-
-### Render a local graph tree
-
-```bash
-PYTHONPATH=src python3 -m sparkle tree <node_id_prefix>
-```
-
-### Trace lineage
-
-```bash
-PYTHONPATH=src python3 -m sparkle lineage <node_id_prefix>
-```
-
-### Explain why a node exists
-
-```bash
-PYTHONPATH=src python3 -m sparkle why <node_id_prefix>
-```
-
-### Export a subgraph
-
-```bash
-PYTHONPATH=src python3 -m sparkle export \
-  --root <node_id_prefix> \
-  --output exports/research-path.md
-```
-
-## Storage Model
-
-Sparkle stores graph state as human-readable JSON:
-
-- nodes are stored in a `nodes` map keyed by content hash
-- edges are stored in an `edges` map keyed by content hash
-- node and edge IDs are deterministic for a given payload
-
-Important implication:
-
-- identical payloads collapse to the same ID
-- provenance remains stable
-- the storage layer is immutable in spirit, even though the JSON file is rewritten as the store grows
-
-## Branch Templates
-
-The current templates are:
-
-- `support`
-  - creates an `evidence` node
-  - links it with `supports`
-- `objection`
-  - creates an `objection` node
-  - links it with `contradicts`
-- `reframing`
-  - creates a `question` node
-  - links it with `refines`
-- `application`
-  - creates a downstream `claim`
-  - links it with `derived_from`
-
-Templates add two things on top of raw graph editing:
-
-- a consistent relation and node type
-- a starter prompt so the branch begins with a useful research question instead of an empty node
-
-## Example Workflow
-
-1. Initialize the store.
-2. Create or bootstrap a root claim.
-3. Add evidence, objections, questions, or syntheses directly.
-4. Use `add-branch` when the branch is a standard support, objection, reframing, or application move.
-5. Use `show` and `lineage` to inspect provenance.
-6. Export a selected root into markdown when you want a memo-like artifact.
+</details>
 
 ## Testing
-
-Run:
 
 ```bash
 python3 -m unittest discover -s tests -v
 ```
 
-The current automated coverage verifies:
-
-- store initialization
-- bootstrap seeding
-- node creation with validation (type, status, confidence range)
-- edge creation
-- branch-template creation
-- claim-card style node inspection
-- local ASCII tree rendering
-- provenance-focused why rendering
-- filtered node listing
-- home dashboard rendering
-- lineage traversal
-- export to file and stdout
-- invalid lookup handling
-- ambiguous prefix handling
-- out-of-range confidence rejection
+16 tests covering: init, bootstrap, node/edge CRUD, branch templates, show/tree/why rendering, filtered listing, home dashboard, lineage, export, error handling (invalid lookups, ambiguous prefixes, out-of-range confidence).
 
 ## Current Limits
 
-Not implemented yet:
-
-- node metadata editing (status, confidence, tags) without recreating the node
-- merge and supersede workflows for converging syntheses
-- MCP server for agent-native access
-- structured JSON output for machine consumption
-- structured citations with author, year, DOI fields
-- graph introspection (gaps, tensions, stale nodes)
-- UI or graph visualization
-- collaboration or sync
-
-## Next
-
-See [`docs/roadmap.md`](docs/roadmap.md) for the full plan. The short version:
-
-1. **CLI usability** — `update-node`, `merge`, `undo`, `batch` mode, short IDs
-2. **Agent-native interface** — MCP server, `--format json`, query language, introspection commands
-3. **Real citation management** — structured sources, excerpts, snapshots, BibTeX interop
-4. **Research workflows** — guided investigation, devil's advocate, confidence propagation, review triggers
+- No node metadata editing — you have to recreate nodes to change status or confidence
+- No merge/supersede — can't express "this synthesis replaced that one"
+- No machine-readable output — agents have to parse ASCII
+- No MCP server — agents shell out to the CLI
+- Citations are flat strings — no structured source metadata
+- No graph introspection — the tool doesn't tell you what's missing
+- No UI — terminal only
