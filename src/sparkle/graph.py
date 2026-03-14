@@ -15,7 +15,10 @@ class GraphStore:
             self._write({"nodes": {}, "edges": {}})
 
     def _read(self) -> dict:
-        return json.loads(self.path.read_text(encoding="utf-8"))
+        try:
+            return json.loads(self.path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Corrupt graph store at {self.path}: {e}") from e
 
     def _write(self, payload: dict) -> None:
         self.path.write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")
@@ -83,9 +86,13 @@ class GraphStore:
         outbound = []
         for edge_id, edge in data["edges"].items():
             if edge["to_id"] == node_id:
+                if edge["from_id"] not in data["nodes"]:
+                    continue
                 related_node = data["nodes"][edge["from_id"]]
                 inbound.append({"edge_id": edge_id, "node_id": edge["from_id"], "node": related_node, **edge})
             if edge["from_id"] == node_id:
+                if edge["to_id"] not in data["nodes"]:
+                    continue
                 related_node = data["nodes"][edge["to_id"]]
                 outbound.append({"edge_id": edge_id, "node_id": edge["to_id"], "node": related_node, **edge})
         inbound.sort(key=lambda item: (item["relation"], item["node"]["title"]))
@@ -103,6 +110,8 @@ class GraphStore:
             if current in visited:
                 continue
             visited.add(current)
+            if current not in data["nodes"]:
+                continue
             order.append((current, data["nodes"][current]))
             for edge in data["edges"].values():
                 if edge["to_id"] == current:
