@@ -7,6 +7,7 @@ import sys
 from .bootstrap import seed_concept_graph
 from .graph import GraphStore
 from .models import Edge, Node
+from .templates import BRANCH_TEMPLATES, build_branch_node
 
 DEFAULT_STORE = Path(".sparkle/graph.json")
 
@@ -21,6 +22,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("list-nodes", help="List nodes in the graph")
     subparsers.add_parser("list-edges", help="List edges in the graph")
     subparsers.add_parser("bootstrap", help="Seed the store from the archived concept conversation")
+    subparsers.add_parser("list-templates", help="List structured branch templates")
 
     add_node = subparsers.add_parser("add-node", help="Add a typed node")
     add_node.add_argument("--type", required=True, dest="node_type")
@@ -37,6 +39,16 @@ def build_parser() -> argparse.ArgumentParser:
     add_edge.add_argument("--to", required=True, dest="to_id")
     add_edge.add_argument("--relation", required=True)
     add_edge.add_argument("--note", default="")
+
+    add_branch = subparsers.add_parser("add-branch", help="Create a structured inquiry branch from an existing node")
+    add_branch.add_argument("--from", required=True, dest="from_id")
+    add_branch.add_argument("--template", required=True)
+    add_branch.add_argument("--title", required=True)
+    add_branch.add_argument("--content")
+    add_branch.add_argument("--citations", nargs="*", default=[])
+    add_branch.add_argument("--author", default="local")
+    add_branch.add_argument("--confidence", type=float, default=0.5)
+    add_branch.add_argument("--tags", nargs="*", default=[])
 
     show = subparsers.add_parser("show", help="Show a node with inbound and outbound edges")
     show.add_argument("node_id")
@@ -76,6 +88,15 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"{label}: {node_id}")
             return 0
 
+        if args.command == "list-templates":
+            for name in sorted(BRANCH_TEMPLATES):
+                template = BRANCH_TEMPLATES[name]
+                print(
+                    f"{template.name:<12} {template.node_type:<10} "
+                    f"{template.relation:<12} {template.description}"
+                )
+            return 0
+
         if args.command == "add-node":
             node = Node(
                 node_type=args.node_type,
@@ -97,6 +118,32 @@ def main(argv: list[str] | None = None) -> int:
             edge = Edge(from_id=from_id, to_id=to_id, relation=args.relation, note=args.note)
             edge_id = store.add_edge(edge)
             print(f"Added edge {edge_id}")
+            return 0
+
+        if args.command == "add-branch":
+            from_id = store.resolve_id(args.from_id)
+            parent_node = store.get_node(from_id)
+            branch_node, template = build_branch_node(
+                parent_title=parent_node["title"],
+                template_name=args.template,
+                title=args.title,
+                content=args.content,
+                citations=args.citations,
+                author=args.author,
+                confidence=args.confidence,
+                extra_tags=args.tags,
+            )
+            branch_id = store.add_node(branch_node)
+            edge_id = store.add_edge(
+                Edge(
+                    from_id=branch_id,
+                    to_id=from_id,
+                    relation=template.relation,
+                    note=template.edge_note,
+                )
+            )
+            print(f"Added branch node {branch_id}")
+            print(f"Added branch edge {edge_id}")
             return 0
 
         if args.command == "list-nodes":

@@ -249,6 +249,90 @@ class SparkleCliTestCase(unittest.TestCase):
         self.assertEqual(output, "")
         self.assertIn("No node found for prefix", err)
 
+    def test_list_templates_shows_structured_branch_options(self) -> None:
+        self.run_cli("init")
+        exit_code, output, err = self.run_cli("list-templates")
+        self.assertEqual(exit_code, 0)
+        self.assertIn("support", output)
+        self.assertIn("objection", output)
+        self.assertIn("reframing", output)
+        self.assertIn("application", output)
+        self.assertEqual(err, "")
+
+    def test_add_branch_creates_templated_node_and_edge(self) -> None:
+        self.run_cli("init")
+        _, claim_out, _ = self.run_cli(
+            "add-node",
+            "--type",
+            "claim",
+            "--title",
+            "Merkle DAG research claim",
+            "--content",
+            "A structured claim graph can improve solo research.",
+        )
+        claim_id = claim_out.strip().split()[-1]
+
+        exit_code, output, err = self.run_cli(
+            "add-branch",
+            "--from",
+            claim_id[:12],
+            "--template",
+            "support",
+            "--title",
+            "Support with origin evidence",
+            "--citations",
+            "archive/chatgpt-merkle-dag-research.md",
+            "--tags",
+            "origin",
+        )
+        self.assertEqual(exit_code, 0)
+        self.assertIn("Added branch node", output)
+        self.assertIn("Added branch edge", output)
+        self.assertEqual(err, "")
+        branch_id = next(
+            line.split()[-1]
+            for line in output.splitlines()
+            if line.startswith("Added branch node ")
+        )
+
+        exit_code, output, err = self.run_cli("show", claim_id[:12])
+        self.assertEqual(exit_code, 0)
+        self.assertIn("-[supports]->", output)
+        self.assertEqual(err, "")
+
+        exit_code, branch_output, err = self.run_cli("show", branch_id)
+        self.assertEqual(exit_code, 0)
+        self.assertIn("Type: evidence", branch_output)
+        self.assertIn("Tags: branch:support, template, origin", branch_output)
+        self.assertIn("What evidence, source, or observation strengthens this claim?", branch_output)
+        self.assertEqual(err, "")
+
+    def test_add_branch_rejects_unknown_template(self) -> None:
+        self.run_cli("init")
+        _, claim_out, _ = self.run_cli(
+            "add-node",
+            "--type",
+            "claim",
+            "--title",
+            "Base claim",
+            "--content",
+            "Base content",
+        )
+        claim_id = claim_out.strip().split()[-1]
+
+        exit_code, output, err = self.run_cli(
+            "add-branch",
+            "--from",
+            claim_id[:12],
+            "--template",
+            "invalid",
+            "--title",
+            "Broken branch",
+        )
+        self.assertEqual(exit_code, 2)
+        self.assertEqual(output, "")
+        self.assertIn("Unknown template", err)
+
     def test_unknown_prefix_returns_nonzero_and_stderr(self) -> None:
         self.run_cli("init")
         exit_code, output, err = self.run_cli("show", "missing")

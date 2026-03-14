@@ -34,6 +34,7 @@ The MVP is a local CLI that supports:
 - creating research nodes with typed metadata
 - storing nodes by content hash
 - linking nodes with typed edges
+- starting common inquiry branches from structured templates
 - inspecting node lineage and neighborhood
 - tracking branch-like status on nodes
 - exporting a selected subgraph into a simple markdown narrative
@@ -44,6 +45,7 @@ The MVP is verified with automated tests for the core CLI behaviors:
 - initializing the graph store
 - seeding the concept graph from the archived conversation
 - adding nodes and edges
+- creating structured inquiry branches
 - showing node context and relationships
 - tracing inbound lineage
 - exporting a subgraph to markdown
@@ -60,6 +62,7 @@ This is intentionally small. It is a foundation for proving the model, not the f
 - [`src/sparkle/graph.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/graph.py): graph store and export logic
 - [`src/sparkle/models.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/models.py): data model and hashing
 - [`src/sparkle/bootstrap.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/bootstrap.py): seeds a starter graph from the archived conversation
+- [`src/sparkle/templates.py`](/Users/aorlando/dev/ideas/sparkle/src/sparkle/templates.py): structured branch templates for common inquiry moves
 - [`tests/test_cli.py`](/Users/aorlando/dev/ideas/sparkle/tests/test_cli.py): automated coverage for the current CLI MVP
 
 ## Quick start
@@ -69,6 +72,7 @@ Use Python 3.11+.
 ```bash
 python3 -m src.sparkle.cli init
 python3 -m src.sparkle.cli bootstrap
+python3 -m src.sparkle.cli list-templates
 python3 -m src.sparkle.cli list-nodes
 python3 -m src.sparkle.cli show <node_id_prefix>
 python3 -m src.sparkle.cli export --root <node_id_prefix>
@@ -95,8 +99,9 @@ This repo is now Git-initialized, and the commit history is intended to separate
 1. Initialize the local store.
 2. Bootstrap the example graph, or start with your own claim.
 3. Add evidence, objections, questions, and syntheses as separate nodes.
-4. Link them with typed relations like `supports`, `contradicts`, `answers`, or `derived_from`.
-5. Export a subgraph into markdown when you want a memo-like output.
+4. Use structured branch templates when you want a support, objection, reframing, or application branch.
+5. Link anything more custom with typed relations like `supports`, `contradicts`, `answers`, or `derived_from`.
+6. Export a subgraph into markdown when you want a memo-like output.
 
 ## Example commands
 
@@ -126,6 +131,16 @@ python3 -m src.sparkle.cli add-edge \
   --from <evidence_id_prefix> \
   --to <claim_id_prefix> \
   --relation supports
+```
+
+Start a support branch from an existing claim:
+
+```bash
+python3 -m src.sparkle.cli add-branch \
+  --from <claim_id_prefix> \
+  --template support \
+  --title "Support with source-backed evidence" \
+  --citations archive/chatgpt-merkle-dag-research.md
 ```
 
 Export a narrative:
@@ -159,7 +174,6 @@ Those are deliberate omissions for the first cut.
 
 The immediate next layer is better solo-research ergonomics:
 
-- structured branch templates
 - stronger filtering and search
 - richer citation support
 - more export modes such as memo and outline

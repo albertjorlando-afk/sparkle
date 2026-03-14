@@ -5,6 +5,7 @@
 - Local Python CLI for a claim-graph research store
 - Content-addressed node IDs using deterministic hashing
 - Typed nodes and typed edges
+- Structured branch templates for support, objection, reframing, and application flows
 - Node status and confidence metadata
 - Neighbor and lineage inspection
 - Markdown export for a selected subgraph
@@ -17,7 +18,6 @@
 ### Phase 1: Research ergonomics
 
 - Better filtering and search across node types, statuses, and relations
-- Templates for common branch types such as support, objection, reframing, and application
 - Editable working views layered over immutable node content
 - More structured export formats for memo, outline, and literature-review modes
 

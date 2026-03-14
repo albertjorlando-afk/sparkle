@@ -36,6 +36,7 @@ A solo researcher, builder, or writer exploring an idea with branching lines of 
 - Create typed nodes: `claim`, `evidence`, `question`, `objection`, `inference`, `decision`, `synthesis`.
 - Store nodes with stable content-derived IDs.
 - Add typed edges between nodes.
+- Create common branch types from templates such as `support`, `objection`, `reframing`, and `application`.
 - View a node together with inbound and outbound links.
 - Trace ancestry or lineage from a chosen node.
 - Mark node status with values like `active`, `stalled`, `promising`, `abandoned`, `harvested`.
@@ -64,6 +65,7 @@ Implemented in this repository:
 
 - Python CLI for local claim-graph workflows
 - deterministic content-addressed IDs for nodes and edges
+- structured branch templates for common inquiry moves
 - archived origin conversation committed as reference material
 - concept bootstrap flow that seeds a starter graph
 - local test coverage around the current MVP command set
