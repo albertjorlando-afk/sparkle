@@ -1,4 +1,4 @@
-# Sparkle
+# ✨ Sparkle
 
 A research tool that makes claims, evidence, and reasoning traceable — for humans and AI agents.
 
