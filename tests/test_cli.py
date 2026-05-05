@@ -7,6 +7,8 @@ import tempfile
 import unittest
 
 from src.sparkle.cli import main
+from src.sparkle.graph import GraphStore
+from src.sparkle.models import Edge, Node
 
 
 class SparkleCliTestCase(unittest.TestCase):
@@ -496,6 +498,49 @@ class SparkleCliTestCase(unittest.TestCase):
         self.assertEqual(exit_code, 2)
         self.assertEqual(output, "")
         self.assertIn("No node found for prefix", err)
+
+    def test_graph_kernel_supports_custom_types_relations_metadata_and_export(self) -> None:
+        store = GraphStore(
+            self.store,
+            node_types={"claim", "metric"},
+            edge_relations={"quantifies"},
+        )
+        claim_id = store.add_node(Node(node_type="claim", title="Claim", content="Content", metadata={"pack": "finance"}))
+        metric_id = store.add_node(
+            Node(
+                node_type="metric",
+                title="Sharpe delta",
+                content="Delta was positive in fixture data.",
+                confidence=None,
+                tags=["finance"],
+                metadata={"value": 0.12},
+            )
+        )
+        edge_id = store.add_edge(
+            Edge(
+                from_id=metric_id,
+                to_id=claim_id,
+                relation="quantifies",
+                metadata={"source": "fixture"},
+            )
+        )
+
+        self.assertEqual(store.resolve_id(claim_id[:12]), claim_id)
+        self.assertEqual(store.get_node(claim_id[:12])["metadata"]["pack"], "finance")
+        self.assertEqual(store.list_nodes(node_type="metric", tag="finance", query="positive")[0][0], metric_id)
+        self.assertEqual(store.list_edges()[0][0], edge_id)
+        self.assertIn(metric_id, store.export(claim_id[:12])["nodes"])
+        self.assertIn("<- quantifies", store.render_why(claim_id[:12]))
+
+    def test_graph_kernel_rejects_unknown_custom_type_or_relation(self) -> None:
+        store = GraphStore(self.store, node_types={"claim"}, edge_relations={"supports"})
+        claim_id = store.add_node(Node(node_type="claim", title="Claim", content="Content"))
+        other_id = store.add_node(Node(node_type="claim", title="Other", content="Content"))
+
+        with self.assertRaisesRegex(ValueError, "unknown node_type"):
+            store.add_node(Node(node_type="metric", title="Metric", content="Content"))
+        with self.assertRaisesRegex(ValueError, "unknown edge relation"):
+            store.add_edge(Edge(from_id=other_id, to_id=claim_id, relation="quantifies"))
 
 
 if __name__ == "__main__":
